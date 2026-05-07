@@ -22,45 +22,55 @@ The progression shows you not just **how** to use Express, but **why** it's the 
 A quick reference to native Node.js HTTP server to understand what Express simplifies (manual routing, header management, body parsing, middleware).
 
 ### Beginner Level
-**Files:** `expressapp.js`, `userRoutes.js`, `userController.js`
+**Folder:** `expressBasics/`
 
-- Basic Express server setup
+- Basic Express server setup with `app.js`
 - Creating your first Express application
 - Understanding routing fundamentals
 - Separating routes from controllers
 - Handling HTTP requests and responses
 - Working with middleware
+- Managing user data with `data.js`
 
 ### Intermediate Level
-**Files:** `task/src/` (partial)
+**Folder:** `expressBasics/` with user management extension
 
-- RESTful API development
-- MVC (Model-View-Controller) architecture
-- Data persistence and repositories
+- RESTful API development with user operations
+- Organizing code with controllers and routes
+- MVC (Model-View-Controller) architecture introduction
 - Input validation and error handling
 - CORS and security basics
+- Full CRUD operations on user resources
 
 ### Advanced Level
-**Files:** `task/src/` (complete structure)
+**Folder:** `task/`
 
+- Complete MVC (Model-View-Controller) architecture
 - Service-oriented architecture
+- Repository pattern for data access
 - Complex routing patterns
 - Advanced middleware composition
-- Repository pattern for data access
 - Performance optimization with logging
+- Production-ready application structure
 
 ## 📁 Project Structure
 
 ```
 learn-express/
-├── nodeserver.js           # Basic Node.js server example
-├── expressapp.js           # Simple Express application
-├── data.js                 # Sample data for learning
-├── userController.js       # User management controller
-├── userRoutes.js           # User routes configuration
-├── package.json            # Project dependencies
+├── nodeserver.js           # Native Node.js HTTP server (foundation reference)
+├── expressapp.js           # Basic Express application
+├── README.md               # This documentation
+├── package.json            # Root project dependencies
 │
-└── task/                   # Advanced Task Management API
+├── expressBasics/          # Beginner & Intermediate Level Projects
+│   ├── app.js              # Express app with routes
+│   ├── data.js             # Sample user data
+│   ├── userController.js   # User request handlers
+│   ├── userRoutes.js       # User routes configuration
+│   ├── package.json        # Express basics dependencies
+│   └── package-lock.json
+│
+└── task/                   # Advanced Level - Task Management API
     ├── app.js              # Express app configuration
     ├── package.json        # Task project dependencies
     │
@@ -98,10 +108,18 @@ learn-express/
    npm install
    ```
 
-3. **Navigate to the task project:**
+3. **For Express Basics (Beginner & Intermediate):**
+   ```bash
+   cd expressBasics
+   npm install
+   npm run dev
+   ```
+
+4. **For Task Management API (Advanced):**
    ```bash
    cd task
    npm install
+   npm run dev
    ```
 
 ## 📖 Projects Included
@@ -112,17 +130,38 @@ learn-express/
 - Request/response fundamentals
 - Your entry point into Express after understanding Node.js HTTP basics
 
-### 2. User Management API (`userController.js`, `userRoutes.js`)
+### 2. Express Basics Project (`expressBasics/`)
+**Beginner & Intermediate Level**
+
+A complete beginner-to-intermediate project with proper structure:
+
+- **app.js**: Main Express application file
+- **userController.js**: Handles user-related HTTP requests
+- **userRoutes.js**: Defines API routes for user operations
+- **data.js**: Sample user data for testing
+
+Features:
 - CRUD operations for user management
 - Role-based user structure (admin, manager, user)
 - Separation of routes from controllers
 - Search and filter functionality
 - Error handling examples
+- Input validation
+- RESTful API design
+
+This project shows how to **organize Express applications** properly and is your bridge between basic Express understanding and advanced architecture patterns.
 
 ### 3. Task Management API (`task/`)
-**Architecture:** MVC Pattern with professional separation of concerns
+**Advanced Level**
 
-**Why This Project:** This is the advanced example showing how to build production-ready Express applications with proper architecture and layering.
+A production-ready Express application demonstrating **professional architecture** and best practices.
+
+**Architecture:** Complete MVC Pattern with separation of concerns
+
+- **Controllers** (`src/controllers/`): Handle HTTP requests with validation
+- **Services** (`src/services/`): Contain business logic
+- **Repositories** (`src/repositories/`): Manage data persistence
+- **Routes** (`src/routes/`): Define API endpoints
 
 #### Features:
 - ✅ Create tasks with priority levels (1-5)
@@ -338,12 +377,19 @@ export const createTaskController = async (req, res) => {
 
 ## 🎓 Learning Tips
 
-1. **Start Simple**: Begin with `expressapp.js` to understand basic Express concepts
-2. **Build Incrementally**: Progress from user management to the full task API
-3. **Understand Layers**: Study the repository → service → controller flow
-4. **Experiment**: Modify the code and see how changes affect behavior
-5. **Use Logging**: Enable Morgan to understand request/response flow
-6. **Reference Node.js HTTP**: When you struggle, compare with `nodeserver.js` to appreciate Express simplicity
+1. **Start with `nodeserver.js`**: Understand native Node.js HTTP to appreciate Express
+2. **Move to `expressapp.js`**: See basic Express in action
+3. **Explore `expressBasics/`**: This is your main learning project for beginner & intermediate concepts
+   - Start with `app.js` to see the complete structure
+   - Study `userRoutes.js` to understand routing
+   - Review `userController.js` to see request handling patterns
+   - Check `data.js` for sample data structure
+4. **Progress to `task/`**: Master advanced MVC architecture
+5. **Build Incrementally**: Each level builds on the previous
+6. **Understand Layers**: Study the repository → service → controller flow
+7. **Experiment**: Modify code and see how changes affect behavior
+8. **Use Logging**: Enable Morgan to understand request/response flow
+9. **Reference Node.js HTTP**: When you struggle, compare with `nodeserver.js` to appreciate Express simplicity
 
 ## 🔍 Best Practices Demonstrated
 
