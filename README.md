@@ -229,6 +229,66 @@ Coming from native Node.js HTTP servers, Express provides:
 | **Learning Curve** | Steep | Gentle progression |
 | **Production Ready** | Possible but complex | Yes, out of the box |
 
+## 🎓 Session 3: Production-Ready Express APIs
+
+**Interactive Learning Module** for mastering production-oriented Express development.
+
+### What You'll Learn
+
+The `interactive-learning/session-3/` module teaches six core topics through interactive visualizations and real code examples:
+
+1. **Production Architecture** - Understand the 7-layer architecture (Routes → Controllers → Services → Repositories → Database)
+2. **Request Lifecycle** - Step through a complete HTTP request/response cycle with data transformations
+3. **CRUD Operations** - Deep dive into Create, Read, Update, Delete with flow diagrams
+4. **Input Validation** - Master validation patterns (required fields, ranges, uniqueness)
+5. **Error Handling** - Learn error propagation and centralized error handling
+6. **Middleware Pipeline** - Understand how middleware executes in order with the `next()` function
+
+### Quick Start
+
+```bash
+cd interactive-learning/session-3
+npm install
+npm run dev
+# Opens http://localhost:3000
+```
+
+The module features interactive visualizations, real code from the Task Management API, and professional documentation-style design.
+
+### 📖 Full Documentation
+
+See `interactive-learning/session-3/README.md` for installation, learning paths, and how to extend the module.
+
+## 🔐 Session 4: Authentication & Security
+
+**Interactive Learning Module** for mastering authentication and security in Express.
+
+### What You'll Learn
+
+The `interactive-learning/session-4/` module teaches core security topics through interactive visualizations:
+
+1. **Authentication Fundamentals** - User login, JWT tokens, password hashing
+2. **Authorization & Permissions** - Role-based access control (RBAC), middleware guards
+3. **API Security** - CORS, rate limiting, input sanitization
+4. **Password Management** - Hashing, salting, bcrypt patterns
+5. **JWT Implementation** - Token generation, validation, expiration
+6. **Security Best Practices** - HTTPS, secure headers, OWASP guidelines
+
+### Quick Start
+
+```bash
+cd interactive-learning/session-4
+npm install
+npm run dev
+# Opens http://localhost:3000
+```
+
+### 📖 Full Documentation
+
+See `interactive-learning/session-4/README.md` for installation and learning guides.
+
+---
+
 ## 📘 Reference: Native Node.js HTTP Server
 
 To understand what Express simplifies, here's how to build a basic HTTP server with **native Node.js** (without any framework):
