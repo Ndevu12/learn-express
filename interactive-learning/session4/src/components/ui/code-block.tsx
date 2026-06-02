@@ -1,5 +1,4 @@
 import * as React from "react"
-import { codeToHtml } from "shiki"
 import { cn } from "@/lib/utils"
 
 interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -9,32 +8,7 @@ interface CodeBlockProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
-  async ({ language = "javascript", title, code, className, ...props }, ref) => {
-    let highlightedCode = code
-
-    try {
-      highlightedCode = await codeToHtml(code, {
-        lang: language,
-        theme: "github-dark",
-        transformers: [
-          {
-            line(node) {
-              this.addClassToHNode(node, "line")
-            },
-            pre(node) {
-              this.addClassToHNode(node, "shiki-pre")
-            },
-            code(node) {
-              this.addClassToHNode(node, "shiki-code")
-            }
-          }
-        ]
-      })
-    } catch (error) {
-      // Fallback to plain code if highlighting fails
-      highlightedCode = `<pre><code>${code}</code></pre>`
-    }
-
+  ({ language = "javascript", title, code, className, ...props }, ref) => {
     return (
       <div 
         ref={ref}
@@ -46,10 +20,11 @@ const CodeBlock = React.forwardRef<HTMLDivElement, CodeBlockProps>(
             <p className="text-sm font-mono text-slate-700">{title}</p>
           </div>
         )}
-        <div
-          className="shiki-wrapper"
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
-        />
+        <pre className="bg-slate-900 text-slate-50 p-4 overflow-x-auto">
+          <code className="font-mono text-sm">
+            {code}
+          </code>
+        </pre>
       </div>
     )
   }

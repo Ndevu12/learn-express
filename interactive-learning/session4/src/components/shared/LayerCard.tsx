@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 interface LayerCardProps {
-  id: string;
   name: string;
   icon: string;
   description: string;
@@ -14,7 +13,6 @@ interface LayerCardProps {
 }
 
 export const LayerCard: React.FC<LayerCardProps> = ({
-  id,
   name,
   icon,
   description,
@@ -28,7 +26,6 @@ export const LayerCard: React.FC<LayerCardProps> = ({
   const [showCode, setShowCode] = useState(false);
 
   const bgColor = color === 'blue' ? 'bg-blue-50 border-blue-200' : 'bg-slate-50 border-slate-200';
-  const textColor = color === 'blue' ? 'text-blue-700' : 'text-slate-700';
   const hoverClass = isClickable ? 'card-hover' : 'card';
   const borderClass = isActive ? `border-2 ${color === 'blue' ? 'border-blue-600' : 'border-slate-600'}` : '';
 

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Section, Card } from '../shared/Card';
 import { Badge } from '../shared/Badge';
-import { FlowDiagram } from '../shared/FlowDiagram';
-import { CodeBlock } from '@/components/ui/code-block';
 import { crudOperations } from '../../data/examples';
 
 export const CRUDVisualization: React.FC = () => {

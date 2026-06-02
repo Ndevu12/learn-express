@@ -26,6 +26,7 @@ export const ArchitectureExplorer: React.FC = () => {
               <LayerCard
                 key={layer.id}
                 {...layer}
+                color={layer.color as 'blue' | 'slate'}
                 isClickable={true}
                 isActive={activeLayer === layer.id}
                 onClick={() => setActiveLayer(layer.id)}
