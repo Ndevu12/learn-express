@@ -23,12 +23,34 @@
     @apply text-slate-700 leading-relaxed;
   }
 
-  code {
+  code:not(pre code) {
     @apply bg-slate-100 text-slate-900 px-2 py-1 rounded font-mono text-sm;
   }
 
   pre {
     @apply bg-slate-800 text-slate-50 p-4 rounded-lg overflow-x-auto font-mono text-sm;
+  }
+
+  pre code {
+    @apply bg-transparent text-green-300 p-0;
+  }
+}
+
+@layer components {
+  .shiki-wrapper {
+    @apply bg-slate-900 overflow-x-auto p-4;
+  }
+
+  .shiki-wrapper pre {
+    @apply m-0 bg-transparent;
+  }
+
+  .shiki-wrapper code {
+    @apply bg-transparent text-slate-50 p-0;
+  }
+
+  .shiki-wrapper .line {
+    @apply block;
   }
 }
 

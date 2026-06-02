@@ -1,10 +1,10 @@
-# Session 3: Production-Ready Express APIs - Interactive Learning Module
+# Session 4: Authentication & Security - Interactive Learning Module
 
-An interactive, web-based learning experience that teaches production-oriented Express.js development through real code examples and visual explanations.
+An interactive, web-based learning experience that teaches authentication and security in Express.js through real code examples and visual explanations.
 
 ## 🎯 What You'll Learn
 
-This module teaches essential concepts for building production-ready Express APIs:
+This module teaches essential concepts for securing Express applications:
 
 ### 1. **Production Architecture Overview** 🏗️
 Understand the layered architecture: Client → Routes → Middleware → Controllers → Services → Repositories → Database
