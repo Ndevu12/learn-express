@@ -259,6 +259,34 @@ The module features interactive visualizations, real code from the Task Manageme
 
 See `interactive-learning/session-3/README.md` for installation, learning paths, and how to extend the module.
 
+## 🔐 Session 4: Authentication & Security
+
+**Interactive Learning Module** for mastering authentication and security in Express.
+
+### What You'll Learn
+
+The `interactive-learning/session-4/` module teaches core security topics through interactive visualizations:
+
+1. **Authentication Fundamentals** - User login, JWT tokens, password hashing
+2. **Authorization & Permissions** - Role-based access control (RBAC), middleware guards
+3. **API Security** - CORS, rate limiting, input sanitization
+4. **Password Management** - Hashing, salting, bcrypt patterns
+5. **JWT Implementation** - Token generation, validation, expiration
+6. **Security Best Practices** - HTTPS, secure headers, OWASP guidelines
+
+### Quick Start
+
+```bash
+cd interactive-learning/session-4
+npm install
+npm run dev
+# Opens http://localhost:3000
+```
+
+### 📖 Full Documentation
+
+See `interactive-learning/session-4/README.md` for installation and learning guides.
+
 ---
 
 ## 📘 Reference: Native Node.js HTTP Server
