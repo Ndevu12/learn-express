@@ -13,6 +13,11 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(apiLimiter);
 
+// Health check
+app.get('/', (req, res) => {
+  res.json({ message: 'Task Manager API running' });
+});
+
 // Public routes
 app.use("/auth", authRoutes);
 
