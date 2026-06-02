@@ -2,7 +2,6 @@ import React from 'react';
 import { Section, Card } from '../shared/Card';
 import { CodeBlock } from '../shared/CodeBlock';
 import { FlowDiagram } from '../shared/FlowDiagram';
-import { errorHandlingFlow } from '../../data/examples';
 
 export const ErrorHandlingModule: React.FC = () => {
   return (
