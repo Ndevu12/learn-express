@@ -6,9 +6,6 @@ import {
     getTaskController,
 } from "../controllers/taskControllers.js";
 import express from "express";
-import { createRequire } from 'module';
-
-const require = createRequire(import.meta.url);
 
 const router = express.Router();
 

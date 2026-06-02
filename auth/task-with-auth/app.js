@@ -1,17 +1,23 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import authRoutes from "./src/routes/authRoutes.js";
 import TaskRouter from "./src/routes/taskRoutes.js";
+import { authenticateToken } from "./src/middleware/authMiddleware.js";
+import { apiLimiter } from "./src/middleware/rateLimitMiddleware.js";
 
 const app = express();
 
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(apiLimiter);
 
+// Public routes
+app.use("/auth", authRoutes);
 
-
-app.use("/tasks", TaskRouter);
+// Protected routes
+app.use("/tasks", authenticateToken, TaskRouter);
 
 const port = 4000;
 

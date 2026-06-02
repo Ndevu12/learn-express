@@ -11,6 +11,8 @@ import {
 export const createTaskController = async (req, res) => {
     try {
         const { title, priority, deadline } = req.body;
+        const userId = req.user.id;
+
         if (!title || !priority || !deadline) {
             return res.status(400).json({ message: "Title, priority and deadline are required." });
         }
@@ -24,7 +26,7 @@ export const createTaskController = async (req, res) => {
             return res.status(409).json({ message: "A task with the same title already exists." });
         }
 
-        const result = await createTaskService(title, priority, deadline);
+        const result = await createTaskService(title, priority, deadline, userId);
         return res.status(201).json(result);
     } catch (error) {
         return res.status(500).json({ message: "An error occurred while creating the task." });
@@ -34,6 +36,7 @@ export const createTaskController = async (req, res) => {
 export const updateTaskController = (req, res) => {
     const { id } = req.params;
     const { title, priority, deadline } = req.body;
+    const userId = req.user.id;
     
     if (!title || !priority || !deadline) {
         return res.status(400).json({ message: "Title, priority and deadline are required." });
@@ -42,23 +45,35 @@ export const updateTaskController = (req, res) => {
     if (priority < 1 || priority > 5) {
         return res.status(400).json({ message: "Priority must be between 1 and 5." });
     }
-    const result = updateTaskService(id, title, priority, deadline);
+    const result = updateTaskService(id, title, priority, deadline, userId);
+    if (!result) {
+        return res.status(404).json({ message: "Task not found." });
+    }
     return res.status(200).json(result);
 };
 
 export const deleteTaskController = (req, res) => {
     const { id } = req.params;
-    const result = deleteTaskService(id);
-    return res.status(200).json(result);
+    const userId = req.user.id;
+    const result = deleteTaskService(id, userId);
+    if (!result) {
+        return res.status(404).json({ message: "Task not found." });
+    }
+    return res.status(200).json({ message: "Task deleted successfully." });
 };
 
 export const getAllTasksController = (req, res) => {
-    const result = getAllTasksService();
+    const userId = req.user.id;
+    const result = getAllTasksService(userId);
     return res.status(200).json(result);
 };
 
 export const getTaskController = (req, res) => {
     const { id } = req.params;
-    const result = getTaskService(id);
+    const userId = req.user.id;
+    const result = getTaskService(id, userId);
+    if (!result) {
+        return res.status(404).json({ message: "Task not found." });
+    }
     return res.status(200).json(result);
 };
