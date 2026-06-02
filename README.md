@@ -229,6 +229,43 @@ Coming from native Node.js HTTP servers, Express provides:
 | **Learning Curve** | Steep | Gentle progression |
 | **Production Ready** | Possible but complex | Yes, out of the box |
 
+## 🎓 Session 3: Interactive Learning Module
+
+**New:** We've added an interactive, web-based learning experience for Session 3!
+
+### 📚 What's Included
+
+The `interactive-learning/session-3/` directory contains a React + TypeScript learning module that teaches production-ready Express.js development through:
+
+- **Production Architecture Overview**: Visual exploration of layered architecture
+- **Request Lifecycle Explorer**: Step through HTTP request/response cycles
+- **Advanced CRUD Visualization**: Deep dive into all CRUD operations
+- **Validation Learning Module**: Master input validation patterns
+- **Error Handling Module**: Learn error propagation and handling
+- **Middleware Pipeline Explorer**: Understand middleware execution order
+
+### 🚀 Getting Started
+
+```bash
+cd interactive-learning/session-3
+npm install
+npm run dev
+```
+
+Open http://localhost:3000 to start learning!
+
+### 🎯 Who Should Use It
+
+- **Learners**: Interactive visualizations with real code examples
+- **Teachers**: Professional, documentation-style teaching material
+- **Developers**: Reference guide when building production APIs
+
+### 📖 For More Details
+
+See `interactive-learning/session-3/README.md` for comprehensive documentation on the learning module.
+
+---
+
 ## 📘 Reference: Native Node.js HTTP Server
 
 To understand what Express simplifies, here's how to build a basic HTTP server with **native Node.js** (without any framework):
