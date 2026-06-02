@@ -1,60 +1,27 @@
 # Session 4: Authentication & Security - Interactive Learning Module
 
-An interactive, web-based learning experience that teaches authentication and security in Express.js through real code examples and visual explanations.
+An interactive, web-based learning experience that teaches authentication, authorization, JWT tokens, and RBAC in Express.js through real code examples and visual explanations.
 
 ## 🎯 What You'll Learn
 
-This module teaches essential concepts for securing Express applications:
+This module provides a comprehensive learning journey through building secure Express applications:
 
-### 1. **Production Architecture Overview** 🏗️
-Understand the layered architecture: Client → Routes → Middleware → Controllers → Services → Repositories → Database
+### **Fundamentals** 🏗️
+- **Production Architecture Overview** - Layered architecture with routes, middleware, controllers, services, and repositories
+- **Request Lifecycle** - Complete HTTP request/response cycle through all layers
 
-- Learn the purpose of each layer
-- Understand responsibilities and data flow
-- See real code examples from the Task Management API
+### **Authentication & Security** 🔐
+- **Authentication Flow** - Complete registration and login process with password hashing and JWT generation
+- **JWT Deep Dive** - Structure of JWT tokens (Header.Payload.Signature), lifecycle, and verification
+- **Protected Routes** - How token validation determines access (401 vs 403, valid vs invalid tokens)
+- **Role-Based Access Control (RBAC)** - Defining roles, assigning permissions, and enforcing authorization
+- **End-to-End Flow** - Complete visual journey from login through authenticated API request with RBAC
 
-### 2. **Request Lifecycle Explorer** 🔄
-Step through a complete HTTP request/response cycle with interactive stages
-
-- Incoming request routing
-- Middleware processing
-- Controller validation and logic
-- Service business logic
-- Repository data access
-- Response generation
-
-### 3. **Advanced CRUD Visualization** 📊
-Deep dive into Create, Read, Update, Delete operations
-
-- Understand flow through all layers
-- See validation rules for each operation
-- Review real request/response examples
-- Learn error scenarios
-
-### 4. **Validation Learning Module** ✔️
-Master production-grade input validation
-
-- Required field validation
-- Range validation
-- Uniqueness constraints
-- Error response patterns
-
-### 5. **Error Handling Learning Module** ⚠️
-Learn how production apps handle errors gracefully
-
-- Error propagation from repository to controller
-- Try-catch patterns
-- HTTP status code selection
-- Global error handlers
-
-### 6. **Middleware Pipeline Explorer** ⚙️
-Understand middleware execution order and the `next()` function
-
-- CORS middleware
-- Request logging (Morgan)
-- JSON parsing
-- Route matching
-- Response handling
+### **Advanced Topics** ⚡
+- **CRUD Operations** - Deep dive into Create, Read, Update, Delete with real examples
+- **Validation** - Production-grade input validation patterns
+- **Error Handling** - Error propagation and recovery strategies
+- **Middleware Pipeline** - Middleware execution order and the `next()` function
 
 ## 🚀 Getting Started
 
@@ -64,9 +31,9 @@ Understand middleware execution order and the `next()` function
 
 ### Installation
 
-1. Navigate to the session-3 directory:
+1. Navigate to the session4 directory:
 ```bash
-cd interactive-learning/session-3
+cd interactive-learning/session4
 ```
 
 2. Install dependencies:
@@ -92,11 +59,11 @@ The built files will be in the `dist/` directory.
 ## 📁 Project Structure
 
 ```
-session-3/
+session4/
 ├── src/
 │   ├── main.tsx                 # React entry point
-│   ├── App.tsx                  # Main app component with routing
-│   ├── index.css               # Tailwind CSS configuration
+│   ├── App.tsx                  # Main app with navigation
+│   ├── index.css               # Tailwind CSS
 │   ├── data/
 │   │   └── examples.ts         # Real code examples and data
 │   └── components/
@@ -105,11 +72,15 @@ session-3/
 │       │   ├── Badge.tsx
 │       │   ├── CodeBlock.tsx
 │       │   ├── LayerCard.tsx
-│       │   ├── Navigation.tsx
 │       │   └── FlowDiagram.tsx
 │       └── modules/            # Learning modules
 │           ├── ArchitectureExplorer.tsx
 │           ├── RequestLifecycleExplorer.tsx
+│           ├── AuthenticationFlow.tsx        (NEW)
+│           ├── JWTExplorer.tsx               (NEW)
+│           ├── ProtectedRoutes.tsx           (NEW)
+│           ├── RBACModule.tsx                (NEW)
+│           ├── EndToEndFlow.tsx              (NEW)
 │           ├── CRUDVisualization.tsx
 │           ├── ValidationModule.tsx
 │           ├── ErrorHandlingModule.tsx
@@ -130,89 +101,125 @@ session-3/
 
 ## 📚 How to Use
 
-1. **Navigate through modules**: Use the top navigation to switch between topics
-2. **Interact with visualizations**: Click on architecture layers, step through lifecycle stages
-3. **Review code examples**: See real code from the Task Management API
-4. **Explore scenarios**: Click buttons to view request/response pairs
-5. **Read explanations**: Each section includes descriptions and best practices
+### Learning Path
 
-## 💡 Key Learning Paths
+1. **Start with Fundamentals**
+   - Architecture Overview: Understand the layered structure
+   - Request Lifecycle: See how requests flow through layers
 
-### For Beginners
-1. Start with **Architecture Overview** to understand the big picture
-2. Then explore **Request Lifecycle** to see how requests flow
-3. Study **CRUD Operations** to understand API endpoints
+2. **Learn Authentication & Security** (NEW!)
+   - Authentication Flow: Registration → Login → Token Generation
+   - JWT Tokens: Structure, lifecycle, verification
+   - Protected Routes: Access control decisions
+   - RBAC: Roles, permissions, authorization
+   - End-to-End: Complete secure application flow
 
-### For Intermediate Learners
-1. Deep dive into **Validation** patterns
-2. Master **Error Handling** for robustness
-3. Understand **Middleware Pipeline** execution
+3. **Master Advanced Topics**
+   - CRUD Operations: Real API examples
+   - Validation: Production patterns
+   - Error Handling: Recovery strategies
+   - Middleware: Pipeline execution
 
-### For Advanced Learners
-1. Study all modules for comprehensive understanding
-2. Reference code examples when building your own APIs
-3. Use as teaching material for others
+### Interactive Features
 
-## 🔗 References to Task Management API
+- **Click to expand**: Explore details about each concept
+- **Step-through**: Navigate through multi-step processes
+- **Compare scenarios**: See different outcomes (valid token, expired token, etc.)
+- **View real code**: Copy-friendly code examples from production API
+- **Visual flows**: See data transformation through layers
 
-This module references real code from the Task Management API located at `../../task/`
+## 💡 Key Learning Outcomes
 
-- Controllers: `task/src/controllers/taskControllers.js`
-- Services: `task/src/services/taskServices.js`
-- Repositories: `task/src/repositories/taskRepository.js`
-- Routes: `task/src/routes/taskRoutes.js`
+After completing this module, you'll understand:
 
-## 🎓 Best Practices Taught
+✅ How authentication works (registration, password hashing, login)
+✅ JWT token structure and lifecycle
+✅ How servers verify tokens and control access
+✅ Role-based access control implementation
+✅ Frontend vs backend security responsibilities
+✅ The complete secure request cycle
+✅ Production-ready Express patterns
 
-✅ Separation of Concerns
-✅ Layered Architecture
-✅ RESTful API Design
-✅ Input Validation
-✅ Error Handling
-✅ Middleware Patterns
-✅ Request/Response Cycles
-✅ HTTP Status Codes
-✅ Code Organization
-✅ Production Readiness
+## 🔐 Security Concepts Taught
+
+- **Password Security**: Hashing with bcrypt, never storing plain-text passwords
+- **JWT**: Token structure, signature verification, expiration
+- **Authentication vs Authorization**: Who you are vs what you can do
+- **Frontend vs Backend Security**: UX improvements vs security enforcement
+- **Protected Routes**: 401 Unauthorized vs 403 Forbidden
+- **RBAC**: Role hierarchy and permission matrices
+- **Security Best Practices**: HTTPS, token storage, secret management
+
+## 🎓 Learning Progression
+
+The module guides you through authentication from multiple angles:
+
+1. **Conceptual Understanding**: What is authentication? Why is it important?
+2. **Registration Flow**: How users create accounts securely
+3. **JWT Tokens**: How stateless authentication works
+4. **Token Verification**: How servers validate tokens
+5. **Authorization**: How role-based access control works
+6. **End-to-End**: How all pieces fit together
+7. **Real Code**: Production patterns from Express applications
+
+## 📖 Code Examples
+
+All code examples are from real, production-ready implementations:
+
+- Task Management API with authentication
+- User registration and login flows
+- Protected routes and middleware
+- RBAC implementation
+- Error handling patterns
+
+Reference the actual code:
+- Backend: `../../auth/task-with-auth/`
+- Controllers: `../../auth/task-with-auth/src/controllers/`
+- Services: `../../auth/task-with-auth/src/services/`
+- Middleware: `../../auth/task-with-auth/src/middleware/`
+
+## 🔗 External Resources
+
+- [Express.js Documentation](https://expressjs.com/)
+- [JWT.io - JWT Debugger](https://jwt.io/)
+- [Node.js Documentation](https://nodejs.org/en/docs/)
+- [OWASP Security](https://owasp.org/)
+- [RESTful API Design](https://restfulapi.net/)
 
 ## 🤔 FAQ
 
 **Q: Can I use this module offline?**
 A: After building with `npm run build`, yes! The `dist/` folder can be served statically.
 
-**Q: How do I extend this module?**
-A: Add new learning modules to `src/components/modules/`, add data to `src/data/examples.ts`, and add navigation tabs in `App.tsx`.
+**Q: Is this suitable for beginners?**
+A: Yes! Start with Fundamentals, then move to Authentication & Security. The learning path guides you.
 
 **Q: Can I modify the examples?**
-A: Yes! Edit `src/data/examples.ts` to add your own examples or modify existing ones.
+A: Yes! Edit `src/data/examples.ts` to add your own examples or reference different code.
 
-**Q: Is this for teaching others?**
-A: Absolutely! This module is designed to be used as educational material. Share the URL or build it for offline use.
+**Q: How long does it take to complete?**
+A: 60-90 minutes for full comprehension, but you can learn specific topics in 10-15 minutes.
+
+**Q: Is this suitable for teaching others?**
+A: Absolutely! This module is designed as educational material. Share it with your team!
 
 ## 📝 Development
 
 ### Add a New Module
 
-1. Create a new component in `src/components/modules/YourModule.tsx`
-2. Add it to the modules switch in `App.tsx`
-3. Add a new tab to the tabs array
-4. Add supporting data to `src/data/examples.ts`
-
-### Customize Styling
-
-Edit `src/index.css` and `tailwind.config.js` to match your preferences.
+1. Create component: `src/components/modules/YourModule.tsx`
+2. Add to App.tsx tabs array and renderModule switch
+3. Add data to `src/data/examples.ts` if needed
+4. Import and use in App.tsx
 
 ### Update Examples
 
-Edit `src/data/examples.ts` to include your own code examples or scenarios.
+Edit `src/data/examples.ts` to include your code examples or modify existing ones.
 
 ## 🐛 Troubleshooting
 
 **Port 3000 already in use?**
-```bash
-# Vite will automatically use the next available port
-# Or specify a port manually in vite.config.ts
-```
+Vite will automatically use the next available port or specify one in vite.config.ts
 
 **Dependencies not installing?**
 ```bash
@@ -222,18 +229,22 @@ npm install
 
 **Changes not reflecting?**
 ```bash
-# Clear Vite cache
 rm -rf node_modules/.vite
 npm run dev
 ```
 
-## 📖 Additional Resources
+## 🎯 Module Improvements
 
-- [Express.js Documentation](https://expressjs.com/)
-- [Learn Express Repository](https://github.com/yourusername/learn-express)
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [RESTful API Design Guide](https://restfulapi.net/)
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+Recent enhancements include:
+
+✅ Five new authentication & security modules
+✅ Comprehensive JWT education
+✅ RBAC visualization and implementation
+✅ End-to-end flow visualization
+✅ Improved accessibility (ARIA labels, keyboard navigation)
+✅ Organized learning path (Fundamentals → Auth → Advanced)
+✅ Enhanced code examples
+✅ Better visual hierarchy
 
 ## 📄 License
 
@@ -247,4 +258,5 @@ Created as part of the Learn Express learning repository.
 
 **Happy Learning!** 🎉
 
-This interactive module is designed to make learning production-ready Express.js development engaging, visual, and practical. Use it, share it, and build awesome APIs!
+This interactive module is designed to make learning secure, production-ready Express.js development engaging, visual, and practical. Master authentication and authorization to build trustworthy applications!
+
