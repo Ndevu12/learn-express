@@ -24,6 +24,19 @@ Invalid day or module IDs redirect to the first module of the resolved day. Brow
 
 For static hosting (e.g. `dist/` behind nginx or S3), configure a **SPA fallback** so unknown paths serve `index.html`.
 
+### Vercel
+
+Deploy this folder as the Vercel project root (Framework Preset: **Vite**). `vercel.json` rewrites unknown paths to `index.html` so `/day/.../module/...` links work when opened directly or refreshed.
+
+| Setting | Value |
+|--------|--------|
+| Root Directory | *(empty — this repo folder is the project)* |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Install Command | `npm ci` (or default) |
+
+After changing `vercel.json`, redeploy so deep links pick up the SPA rewrite.
+
 ## Checks
 
 Pull requests that touch `interactive-learning/` run **Interactive Learning CI**: `npm ci` and `npm run build` on Node 20. See [.github/workflows/interactive-learning-ci.yml](../.github/workflows/interactive-learning-ci.yml).
