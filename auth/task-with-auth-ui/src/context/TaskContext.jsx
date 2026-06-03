@@ -1,103 +1,140 @@
 import { createContext, useState, useCallback } from 'react'
+import { apiRequest, authHeaders, operationOk, operationFail } from '../lib/api'
 
 export const TaskContext = createContext()
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [lastError, setLastError] = useState(null)
+
+  const handleAuthError = useCallback((err) => {
+    if (err.status === 401) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      window.location.href = '/login'
+      return true
+    }
+    return false
+  }, [])
 
   const fetchTasks = useCallback(async (token) => {
     setLoading(true)
-    setError(null)
+    setLastError(null)
     try {
-      const response = await fetch('http://localhost:4000/tasks', {
-        headers: { 'Authorization': `Bearer ${token}` }
+      const data = await apiRequest('/tasks', {
+        headers: authHeaders(token),
       })
-      
-      if (!response.ok) throw new Error('Failed to fetch tasks')
-      
-      const data = await response.json()
-      setTasks(data)
+      const list = Array.isArray(data) ? data : []
+      setTasks(list)
+      setLastError(null)
+      return operationOk({ tasks: list })
     } catch (err) {
-      setError(err.message)
+      if (!handleAuthError(err)) {
+        const result = operationFail(err, 'Failed to load tasks')
+        setLastError(result)
+        return result
+      }
+      return operationFail(err)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [handleAuthError])
 
   const createTask = useCallback(async (taskData, token) => {
-    setError(null)
+    setLastError(null)
     try {
-      const response = await fetch('http://localhost:4000/tasks', {
+      const newTask = await apiRequest('/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          ...authHeaders(token),
         },
-        body: JSON.stringify(taskData)
+        body: JSON.stringify(taskData),
       })
-      
-      if (!response.ok) throw new Error('Failed to create task')
-      
-      const newTask = await response.json()
-      setTasks([...tasks, newTask])
-      return true
+      setTasks((prev) => [...prev, newTask])
+      setLastError(null)
+      return operationOk({ task: newTask })
     } catch (err) {
-      setError(err.message)
-      return false
+      if (handleAuthError(err)) {
+        return operationFail(err)
+      }
+      const result = operationFail(err, 'Failed to create task')
+      setLastError(result)
+      return result
     }
-  }, [tasks])
+  }, [handleAuthError])
 
   const updateTask = useCallback(async (id, updates, token) => {
-    setError(null)
+    setLastError(null)
     try {
-      const response = await fetch(`http://localhost:4000/tasks/${id}`, {
+      const updated = await apiRequest(`/tasks/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
+          ...authHeaders(token),
         },
-        body: JSON.stringify(updates)
+        body: JSON.stringify(updates),
       })
-      
-      if (!response.ok) throw new Error('Failed to update task')
-      
-      const updated = await response.json()
-      setTasks(tasks.map(t => t.id === id ? updated : t))
-      return true
+      setTasks((prev) => prev.map((t) => (t.id === id ? updated : t)))
+      setLastError(null)
+      return operationOk({ task: updated })
     } catch (err) {
-      setError(err.message)
-      return false
+      if (handleAuthError(err)) {
+        return operationFail(err)
+      }
+      const result = operationFail(err, 'Failed to update task')
+      setLastError(result)
+      return result
     }
-  }, [tasks])
+  }, [handleAuthError])
+
+  const fetchTaskById = useCallback(async (id, token) => {
+    setLastError(null)
+    try {
+      const task = await apiRequest(`/tasks/${id}`, {
+        headers: authHeaders(token),
+      })
+      return operationOk({ task })
+    } catch (err) {
+      if (handleAuthError(err)) {
+        return operationFail(err)
+      }
+      const result = operationFail(err, 'Failed to load task')
+      setLastError(result)
+      return result
+    }
+  }, [handleAuthError])
 
   const deleteTask = useCallback(async (id, token) => {
-    setError(null)
+    setLastError(null)
     try {
-      const response = await fetch(`http://localhost:4000/tasks/${id}`, {
+      await apiRequest(`/tasks/${id}`, {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: authHeaders(token),
       })
-      
-      if (!response.ok) throw new Error('Failed to delete task')
-      
-      setTasks(tasks.filter(t => t.id !== id))
-      return true
+      setTasks((prev) => prev.filter((t) => t.id !== id))
+      setLastError(null)
+      return operationOk()
     } catch (err) {
-      setError(err.message)
-      return false
+      if (handleAuthError(err)) {
+        return operationFail(err)
+      }
+      const result = operationFail(err, 'Failed to delete task')
+      setLastError(result)
+      return result
     }
-  }, [tasks])
+  }, [handleAuthError])
 
   const value = {
     tasks,
     loading,
-    error,
+    lastError,
     fetchTasks,
+    fetchTaskById,
     createTask,
     updateTask,
-    deleteTask
+    deleteTask,
   }
 
   return <TaskContext.Provider value={value}>{children}</TaskContext.Provider>

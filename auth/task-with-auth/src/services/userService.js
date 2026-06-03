@@ -16,3 +16,7 @@ export const getUserById = (id) => {
 export const updateUser = (id, updates) => {
   return userRepository.updateUser(id, updates);
 };
+
+export const getAllUsers = () => {
+  return userRepository.getAllUsers();
+};

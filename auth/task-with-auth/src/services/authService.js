@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { env } from '../config/env.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
 const TOKEN_EXPIRY = '7d';
 
 export const hashPassword = async (password) => {
@@ -14,17 +14,13 @@ export const comparePassword = async (password, hashedPassword) => {
 };
 
 export const generateToken = (userId, role) => {
-  return jwt.sign(
-    { userId, role },
-    JWT_SECRET,
-    { expiresIn: TOKEN_EXPIRY }
-  );
+  return jwt.sign({ userId, role }, env.jwtSecret, { expiresIn: TOKEN_EXPIRY });
 };
 
 export const verifyToken = (token) => {
   try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
+    return jwt.verify(token, env.jwtSecret);
+  } catch {
     return null;
   }
 };

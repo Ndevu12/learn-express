@@ -93,7 +93,7 @@ The module has been tested for:
 ### How to Test
 
 ```bash
-cd interactive-learning/session-3
+cd interactive-learning
 npm install
 npm run dev
 ```
@@ -108,7 +108,7 @@ Then open http://localhost:3000 and interact with:
 
 ## References
 
-- Module documentation: `interactive-learning/session-3/README.md`
+- Module documentation: `interactive-learning/README.md`
 - All examples sourced from: `task/src/` (Task Management API)
 - Learning materials: Existing course materials untouched
 
