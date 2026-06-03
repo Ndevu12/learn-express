@@ -1,6 +1,39 @@
 # Learn Express 🚀
 
-A comprehensive learning repository for **Express.js** development, designed to take you from beginner to advanced level with practical, hands-on examples.
+A hands-on learning repository for **Express.js** — from native Node HTTP through structured APIs, persistence, and authentication.
+
+## Mission
+
+Teach backend development by **following one HTTP request** as it gains layers each day: server → structure → database → auth. Runnable code, interactive modules, and docs live in one repo so learners can run and compare projects side by side.
+
+**Curriculum (four days):** [docs/CURRICULUM.md](docs/CURRICULUM.md) — day themes, request-flow diagrams, and glossary.  
+**Docs index:** [docs/README.md](docs/README.md)
+
+## Repository map
+
+| What | Path | Day | Port |
+|------|------|-----|------|
+| Native HTTP + minimal Express | [day-1-http-and-express/](day-1-http-and-express/README.md) | 1 | 5000 |
+| Routes + controllers | [express-basics/](day-2-structured-api/express-basics/README.md) | 2a | 5000 |
+| Layered task API (in-memory) | [task-api/](day-2-structured-api/task-api/README.md) | 2b | 4000 |
+| MongoDB task API | [task-mongo/](day-3-persistence/task-mongo/README.md) | 3 | **4001** |
+| Auth API + React UI | [auth/](day-4-auth-and-security/auth/README.md) | 4 | 4000 / 5173 |
+| Interactive modules | [interactive-learning/](interactive-learning/) | 1–4 | 6700 |
+| Curriculum (public) | [docs/CURRICULUM.md](docs/CURRICULUM.md) | — | — |
+
+Install dependencies **inside each project folder** (there is no single root `npm install`). See [Getting started](#-getting-started) below. Auth setup and demo users: [day-4-auth-and-security/auth/README.md](day-4-auth-and-security/auth/README.md).
+
+### Former paths (folder reorg)
+
+If an older link or video still uses these locations:
+
+| Former | Now |
+|--------|-----|
+| `nodeserver.js`, `expressapp.js` (repo root) | `day-1-http-and-express/` |
+| `expressBasics/` | `day-2-structured-api/express-basics/` |
+| `task/` | `day-2-structured-api/task-api/` |
+| `task-mongo/` | `day-3-persistence/task-mongo/` |
+| `auth/` | `day-4-auth-and-security/auth/` |
 
 ## 📚 Overview
 
@@ -17,12 +50,12 @@ The progression shows you not just **how** to use Express, but **why** it's the 
 ## 🎯 Learning Path
 
 ### 📌 Starting Point: Understanding HTTP Basics
-**File:** `nodeserver.js`
+**Folder:** [day-1-http-and-express/](day-1-http-and-express/README.md) — `nodeserver.js`, `expressapp.js`
 
 A quick reference to native Node.js HTTP server to understand what Express simplifies (manual routing, header management, body parsing, middleware).
 
 ### Beginner Level
-**Folder:** `expressBasics/`
+**Folder:** [day-2-structured-api/express-basics/](day-2-structured-api/express-basics/README.md)
 
 - Basic Express server setup with `app.js`
 - Creating your first Express application
@@ -33,7 +66,7 @@ A quick reference to native Node.js HTTP server to understand what Express simpl
 - Managing user data with `data.js`
 
 ### Intermediate Level
-**Folder:** `expressBasics/` with user management extension
+**Folder:** express-basics with user management extension
 
 - RESTful API development with user operations
 - Organizing code with controllers and routes
@@ -43,7 +76,7 @@ A quick reference to native Node.js HTTP server to understand what Express simpl
 - Full CRUD operations on user resources
 
 ### Advanced Level
-**Folder:** `task/`
+**Folder:** [day-2-structured-api/task-api/](day-2-structured-api/task-api/README.md)
 
 - Complete MVC (Model-View-Controller) architecture
 - Service-oriented architecture
@@ -57,35 +90,22 @@ A quick reference to native Node.js HTTP server to understand what Express simpl
 
 ```
 learn-express/
-├── nodeserver.js           # Native Node.js HTTP server (foundation reference)
-├── expressapp.js           # Basic Express application
-├── README.md               # This documentation
-├── package.json            # Root project dependencies
-│
-├── expressBasics/          # Beginner & Intermediate Level Projects
-│   ├── app.js              # Express app with routes
-│   ├── data.js             # Sample user data
-│   ├── userController.js   # User request handlers
-│   ├── userRoutes.js       # User routes configuration
-│   ├── package.json        # Express basics dependencies
-│   └── package-lock.json
-│
-└── task/                   # Advanced Level - Task Management API
-    ├── app.js              # Express app configuration
-    ├── package.json        # Task project dependencies
-    │
-    └── src/
-        ├── controllers/    # Request handlers and business logic
-        │   └── taskControllers.js
-        │
-        ├── services/       # Business logic layer
-        │   └── taskServices.js
-        │
-        ├── repositories/   # Data access layer
-        │   └── taskRepository.js
-        │
-        └── routes/         # API endpoint definitions
-            └── taskRoutes.js
+├── README.md
+├── docs/
+│   ├── README.md
+│   └── CURRICULUM.md
+├── day-1-http-and-express/       # Day 1 — nodeserver.js, expressapp.js
+├── day-2-structured-api/
+│   ├── express-basics/           # Day 2a
+│   └── task-api/                 # Day 2b (port 4000)
+├── day-3-persistence/
+│   └── task-mongo/               # Day 3 (port 4001)
+├── day-4-auth-and-security/
+│   ├── README.md
+│   └── auth/
+│       ├── task-with-auth/
+│       └── task-with-auth-ui/
+└── interactive-learning/
 ```
 
 ## 🚀 Getting Started
@@ -103,34 +123,56 @@ learn-express/
    cd learn-express
    ```
 
-2. **Install root dependencies:**
+2. **Day 1 — HTTP and Express:**
    ```bash
-   npm install
+   cd day-1-http-and-express
+   node nodeserver.js    # one terminal
+   node expressapp.js    # another — port 5000
    ```
+   Guide: [day-1-http-and-express/README.md](day-1-http-and-express/README.md).
 
-3. **For Express Basics (Beginner & Intermediate):**
+3. **Express Basics (Day 2a):**
    ```bash
-   cd expressBasics
+   cd day-2-structured-api/express-basics
    npm install
    npm run dev
    ```
 
-4. **For Task Management API (Advanced):**
+4. **Task API (Day 2b):**
    ```bash
-   cd task
+   cd day-2-structured-api/task-api
    npm install
    npm run dev
    ```
+   CRUD curl examples: [day-2-structured-api/task-api/README.md](day-2-structured-api/task-api/README.md).
+
+5. **MongoDB Task API (Day 3):**
+   ```bash
+   cd day-3-persistence/task-mongo
+   cp .env.example .env   # set MONGODB_URI
+   npm install
+   npm run dev            # http://localhost:4001
+   ```
+   Setup, env vars, and curl examples: [day-3-persistence/task-mongo/README.md](day-3-persistence/task-mongo/README.md).
+
+6. **Interactive learning (Days 1–4 modules):**
+   ```bash
+   cd interactive-learning
+   npm install
+   npm run dev            # http://localhost:6700
+   ```
+
+7. **Auth API + UI (Day 4):** see [Day 4: Authentication & security](#-day-4-authentication--security) below for two-terminal setup and [day-4-auth-and-security/auth/README.md](day-4-auth-and-security/auth/README.md) for demo users.
 
 ## 📖 Projects Included
 
-### 1. Basic Express Server (`expressapp.js`)
+### 1. Basic Express Server (`day-1-http-and-express/expressapp.js`)
 - Foundation for understanding Express basics
 - Simple route handling
 - Request/response fundamentals
 - Your entry point into Express after understanding Node.js HTTP basics
 
-### 2. Express Basics Project (`expressBasics/`)
+### 2. Express Basics Project (`day-2-structured-api/express-basics/`)
 **Beginner & Intermediate Level**
 
 A complete beginner-to-intermediate project with proper structure:
@@ -151,7 +193,7 @@ Features:
 
 This project shows how to **organize Express applications** properly and is your bridge between basic Express understanding and advanced architecture patterns.
 
-### 3. Task Management API (`task/`)
+### 3. Task Management API (`day-2-structured-api/task-api/`)
 **Advanced Level**
 
 A production-ready Express application demonstrating **professional architecture** and best practices.
@@ -206,6 +248,11 @@ Content-Type: application/json
 }
 ```
 
+### 4. MongoDB Task API (`day-3-persistence/task-mongo/`)
+**Day 3 — Persistence**
+
+Same REST endpoints as task-api, with tasks stored in MongoDB (data survives restart). Default port **4001** so it can run beside the in-memory API on 4000. Details: [day-3-persistence/task-mongo/README.md](day-3-persistence/task-mongo/README.md).
+
 ## 🔄 Why Express Matters
 
 Coming from native Node.js HTTP servers, Express provides:
@@ -229,39 +276,32 @@ Coming from native Node.js HTTP servers, Express provides:
 | **Learning Curve** | Steep | Gentle progression |
 | **Production Ready** | Possible but complex | Yes, out of the box |
 
-## 🎓 Session 3: Production-Ready Express APIs
+## 🎓 Interactive learning (Days 2–4 modules)
 
-**Interactive Learning Module** for mastering production-oriented Express development.
+**Path:** [interactive-learning/](interactive-learning/)
 
-### What You'll Learn
+One Vite app with modules for architecture, request lifecycle, CRUD, validation, errors, middleware, and full auth (JWT, RBAC, end-to-end). Maps to **Day 2b** and **Day 4** in [docs/CURRICULUM.md](docs/CURRICULUM.md); Day 1 and Day 3 modules are planned.
 
-The `interactive-learning/session-3/` module teaches six core topics through interactive visualizations and real code examples:
+### Topics in the app
 
-1. **Production Architecture** - Understand the 7-layer architecture (Routes → Controllers → Services → Repositories → Database)
-2. **Request Lifecycle** - Step through a complete HTTP request/response cycle with data transformations
-3. **CRUD Operations** - Deep dive into Create, Read, Update, Delete with flow diagrams
-4. **Input Validation** - Master validation patterns (required fields, ranges, uniqueness)
-5. **Error Handling** - Learn error propagation and centralized error handling
-6. **Middleware Pipeline** - Understand how middleware executes in order with the `next()` function
+1. **Architecture** — layers from route to repository (and database)
+2. **Request lifecycle** — step through a request/response
+3. **CRUD, validation, errors, middleware** — production-shaped API patterns
+4. **Auth** — authentication vs authorization, JWT, protected routes, RBAC
 
-### Quick Start
+### Quick start
 
 ```bash
-cd interactive-learning/session-3
+cd interactive-learning
 npm install
 npm run dev
-# Opens http://localhost:3000
 ```
 
-The module features interactive visualizations, real code from the Task Management API, and professional documentation-style design.
+See [interactive-learning/README.md](interactive-learning/README.md) for details.
 
-### 📖 Full Documentation
+## 🔐 Day 4: Authentication & security
 
-See `interactive-learning/session-3/README.md` for installation, learning paths, and how to extend the module.
-
-## 🔐 Session 4: Authentication & Security
-
-**Interactive Learning Module** for mastering authentication and security in Express.
+Runnable API + UI under `day-4-auth-and-security/auth/`, plus interactive auth modules in `interactive-learning/`.
 
 ### What You'll Learn
 
@@ -280,22 +320,22 @@ The `interactive-learning/` module teaches core security topics through interact
 cd interactive-learning
 npm install
 npm run dev
-# Opens http://localhost:3000
+# Opens http://localhost:6700
 ```
 
-### Runnable Session 4 projects (API + UI)
+### Runnable Day 4 projects (API + UI)
 
 Hands-on apps that match the interactive module:
 
 ```bash
 # Terminal 1 — Auth API (port 4000)
-cd auth/task-with-auth && npm install && npm run dev
+cd day-4-auth-and-security/auth/task-with-auth && npm install && npm run dev
 
 # Terminal 2 — Auth UI (port 5173)
-cd auth/task-with-auth-ui && npm install && npm run dev
+cd day-4-auth-and-security/auth/task-with-auth-ui && npm install && npm run dev
 ```
 
-Demo logins, endpoints, and environment variables: [auth/README.md](auth/README.md).
+Demo logins, endpoints, and environment variables: [day-4-auth-and-security/auth/README.md](day-4-auth-and-security/auth/README.md).
 
 ### 📖 Full Documentation
 
@@ -343,7 +383,7 @@ server.listen(3000, () => {
 
 ### Why Express is Better
 
-See `expressapp.js` in this repository for how Express simplifies all of this with just a few lines:
+See `day-1-http-and-express/expressapp.js` for how Express simplifies all of this with just a few lines:
 
 ```javascript
 const express = require('express');
@@ -363,7 +403,7 @@ app.listen(3000);
 
 ---
 
-This is why `nodeserver.js` exists in this repository—to remind you of these challenges and help you appreciate the elegance that Express brings to Node.js development.
+This is why `day-1-http-and-express/nodeserver.js` exists—to remind you of these challenges and help you appreciate the elegance that Express brings to Node.js development.
 
 ## 🏗️ Architecture Patterns
 
@@ -451,19 +491,14 @@ export const createTaskController = async (req, res) => {
 
 ## 🎓 Learning Tips
 
-1. **Start with `nodeserver.js`**: Understand native Node.js HTTP to appreciate Express
-2. **Move to `expressapp.js`**: See basic Express in action
-3. **Explore `expressBasics/`**: This is your main learning project for beginner & intermediate concepts
-   - Start with `app.js` to see the complete structure
-   - Study `userRoutes.js` to understand routing
-   - Review `userController.js` to see request handling patterns
-   - Check `data.js` for sample data structure
-4. **Progress to `task/`**: Master advanced MVC architecture
-5. **Build Incrementally**: Each level builds on the previous
-6. **Understand Layers**: Study the repository → service → controller flow
-7. **Experiment**: Modify code and see how changes affect behavior
-8. **Use Logging**: Enable Morgan to understand request/response flow
-9. **Reference Node.js HTTP**: When you struggle, compare with `nodeserver.js` to appreciate Express simplicity
+1. **Start with Day 1**: `day-1-http-and-express/nodeserver.js` then `expressapp.js`
+2. **Explore express-basics**: `app.js`, `userRoutes.js`, `userController.js`, and `data.js`
+3. **Progress to task-api**: Full layered MVC (repository → service → controller)
+4. **Build incrementally**: Each day adds layers on the same request path
+5. **Understand layers**: Study repository → service → controller flow
+6. **Experiment**: Modify code and see how changes affect behavior
+7. **Use logging**: Morgan on task-api and task-mongo
+8. **Reference Day 1**: When stuck, compare with `nodeserver.js` to appreciate Express
 
 ## 🔍 Best Practices Demonstrated
 
@@ -491,7 +526,7 @@ git config user.email
 ### Test API Endpoints
 ```bash
 # Using curl
-curl -X GET http://localhost:3000/tasks
+curl -X GET http://localhost:4000/tasks
 
 # Or use Postman/Insomnia for better UI
 ```

@@ -1,1 +1,4 @@
 **/node_modules/
+
+# Internal planning (analysis + parallel implementation) — local only
+docs/internal/
