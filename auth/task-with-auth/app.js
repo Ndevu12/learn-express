@@ -1,31 +1,34 @@
-import express from "express";
-import cors from "cors";
-import morgan from "morgan";
-import authRoutes from "./src/routes/authRoutes.js";
-import TaskRouter from "./src/routes/taskRoutes.js";
-import { authenticateToken } from "./src/middleware/authMiddleware.js";
-import { apiLimiter } from "./src/middleware/rateLimitMiddleware.js";
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import authRoutes from './src/routes/authRoutes.js';
+import TaskRouter from './src/routes/taskRoutes.js';
+import { authenticateToken } from './src/middleware/authMiddleware.js';
+import { apiLimiter } from './src/middleware/rateLimitMiddleware.js';
+import { env } from './src/config/env.js';
+import { seedDemoUsers } from './src/seed/demoUsers.js';
 
 const app = express();
 
-app.use(cors());
-app.use(morgan("dev"));
+app.use(cors({ origin: env.corsOrigin }));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(apiLimiter);
 
-// Health check
 app.get('/', (req, res) => {
-  res.json({ message: 'Task Manager API running' });
+  res.json({
+    message: 'Task Manager API with authentication',
+    docs: 'See auth/README.md for endpoints and demo accounts',
+    health: 'ok',
+  });
 });
 
-// Public routes
-app.use("/auth", authRoutes);
+app.use('/auth', authRoutes);
+app.use('/tasks', authenticateToken, TaskRouter);
 
-// Protected routes
-app.use("/tasks", authenticateToken, TaskRouter);
+await seedDemoUsers();
 
-const port = 4000;
-
-const listen = (port) =>  console.log(`Server is listening on http://localhost:${port}`);
-
-app.listen(port, listen(port))
+app.listen(env.port, () => {
+  console.log(`Auth API listening on http://localhost:${env.port}`);
+  console.log(`CORS origin: ${env.corsOrigin}`);
+});

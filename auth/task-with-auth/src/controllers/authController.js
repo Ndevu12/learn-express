@@ -1,27 +1,34 @@
-import { 
-  hashPassword, 
-  comparePassword, 
-  generateToken 
+import {
+  hashPassword,
+  comparePassword,
+  generateToken,
 } from '../services/authService.js';
-import { 
-  createUser, 
-  getUserByEmail 
-} from '../services/userService.js';
+import { createUser, getUserByEmail, getUserById } from '../services/userService.js';
+import { toPublicUser } from '../utils/userResponse.js';
+import { sendError } from '../utils/apiResponse.js';
 
 export const register = async (req, res) => {
   try {
     const { email, password, name } = req.body;
 
     if (!email || !password || !name) {
-      return res.status(400).json({ 
-        message: 'Email, password, and name are required' 
+      return sendError(res, 400, 'Email, password, and name are required', {
+        code: 'VALIDATION_ERROR',
+      });
+    }
+
+    if (password.length < 6) {
+      return sendError(res, 400, 'Password must be at least 6 characters', {
+        code: 'VALIDATION_ERROR',
+        fields: { password: 'Password must be at least 6 characters' },
       });
     }
 
     const existingUser = getUserByEmail(email);
     if (existingUser) {
-      return res.status(409).json({ 
-        message: 'Email already registered' 
+      return sendError(res, 409, 'Email already registered', {
+        code: 'DUPLICATE_EMAIL',
+        fields: { email: 'This email is already in use' },
       });
     }
 
@@ -30,19 +37,17 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
       name,
-      role: 'user'
+      role: 'user',
     });
 
     const token = generateToken(user.id, user.role);
     return res.status(201).json({
       message: 'Registration successful',
       token,
-      user: { id: user.id, email: user.email, name: user.name }
+      user: toPublicUser(user),
     });
-  } catch (error) {
-    return res.status(500).json({ 
-      message: 'Registration failed' 
-    });
+  } catch {
+    return sendError(res, 500, 'Registration failed', { code: 'SERVER_ERROR' });
   }
 };
 
@@ -51,34 +56,36 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ 
-        message: 'Email and password are required' 
+      return sendError(res, 400, 'Email and password are required', {
+        code: 'VALIDATION_ERROR',
       });
     }
 
     const user = getUserByEmail(email);
     if (!user) {
-      return res.status(401).json({ 
-        message: 'Invalid credentials' 
-      });
+      return sendError(res, 401, 'Invalid credentials', { code: 'INVALID_CREDENTIALS' });
     }
 
     const passwordMatch = await comparePassword(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ 
-        message: 'Invalid credentials' 
-      });
+      return sendError(res, 401, 'Invalid credentials', { code: 'INVALID_CREDENTIALS' });
     }
 
     const token = generateToken(user.id, user.role);
     return res.status(200).json({
       message: 'Login successful',
       token,
-      user: { id: user.id, email: user.email, name: user.name }
+      user: toPublicUser(user),
     });
-  } catch (error) {
-    return res.status(500).json({ 
-      message: 'Login failed' 
-    });
+  } catch {
+    return sendError(res, 500, 'Login failed', { code: 'SERVER_ERROR' });
   }
+};
+
+export const getMe = (req, res) => {
+  const user = getUserById(req.user.userId);
+  if (!user) {
+    return sendError(res, 404, 'User not found', { code: 'NOT_FOUND' });
+  }
+  return res.status(200).json({ user: toPublicUser(user) });
 };
