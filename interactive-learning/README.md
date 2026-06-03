@@ -4,7 +4,25 @@
 
 Interactive React modules for the Learn Express workshop (this app is also React — meta only). A **day picker** in the header switches Day 1–4; the sidebar shows modules for the selected day. Previous/Next navigation stays within that day.
 
+**Shareable URLs:** Every day, module, and (where applicable) tab has a bookmarkable path. Copy the address bar to share a link with learners.
+
 **Taskflow product stack in this repo:** Express APIs (`task-api`, `task-mongo`, `task-with-auth`) plus the **Taskflow task UI** built with **React + Vite** (`day-4-auth-and-security/auth/task-with-auth-ui`). Day 1–3 narrative follows the same React client calling those APIs; Day 4 runnable covers API port **4000** and UI port **5173**.
+
+## URL routing
+
+Paths follow **`/day/:dayId/module/:moduleId`**. The URL is the source of truth when you open a link; session storage still remembers your last module per day as a fallback when visiting `/`.
+
+| Example | Opens |
+|--------|--------|
+| `/` | Redirects to your last module (or Day 1 opening) |
+| `/day/day1/module/day1story` | Day 1 — A Request Arrives |
+| `/day/day2/module/crud` | Day 2 — CRUD Operations |
+| `/day/day4/module/jwt` | Day 4 — JWT Tokens |
+| `/day/day4/module/practicalhttp?client=axios` | Day 4 — fetch/axios panel on the **axios** tab |
+
+Invalid day or module IDs redirect to the first module of the resolved day. Browser back/forward restores the previous day, module, and tab query.
+
+For static hosting (e.g. `dist/` behind nginx or S3), configure a **SPA fallback** so unknown paths serve `index.html`.
 
 ## Checks
 
@@ -63,7 +81,9 @@ npm install
 npm run dev
 ```
 
-4. Open your browser (automatically opens at http://localhost:3000)
+4. Open your browser (dev server defaults to http://localhost:6700)
+
+Share a module directly, e.g. `http://localhost:6700/day/day2/module/middleware`.
 
 ### Building for Production
 
@@ -112,6 +132,7 @@ interactive-learning/
 ## 🛠️ Technology Stack
 
 - **React 18**: Interactive UI
+- **React Router**: Shareable day/module/tab URLs
 - **TypeScript**: Type-safe code
 - **Tailwind CSS**: Professional styling
 - **Vite**: Fast build tool and development server
@@ -119,8 +140,9 @@ interactive-learning/
 ## 📚 How to Use
 
 1. Choose **Day 1**, **Day 2**, **Day 3**, or **Day 4** in the header day picker (mobile: under the header bar).
-2. Use the sidebar to open a module for that day only (your last module per day is remembered in the browser session).
+2. Use the sidebar to open a module for that day only, or paste/share a URL like `/day/day3/module/mongodb`.
 3. Use **Previous** / **Next** to move through modules on the same day; switch days explicitly when you are ready.
+4. Your last module per day is remembered in the browser session when you visit `/` without a path.
 
 ### Learning Path
 

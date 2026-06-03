@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -8,13 +9,16 @@ import { ModulePagination } from '@/components/layout/ModulePagination';
 import { ModuleToolbar } from '@/components/layout/ModuleToolbar';
 import { appShell } from '@/data/app-shell';
 import {
-  loadSelectedDay,
-  resolveInitialModule,
   saveLastModuleForDay,
   saveSelectedDay,
 } from '@/data/day-session';
 import type { ModuleId, ModuleSection } from '@/data/modules';
-import { learningModules, sectionMeta } from '@/data/modules';
+import {
+  getFirstModuleInSection,
+  learningModules,
+  sectionMeta,
+} from '@/data/modules';
+import { getDefaultPath, getModulePath, resolveRouteParams } from '@/lib/routes';
 import { ArchitectureExplorer } from './components/modules/ArchitectureExplorer';
 import { RequestLifecycleExplorer } from './components/modules/RequestLifecycleExplorer';
 import { CRUDVisualization } from './components/modules/CRUDVisualization';
@@ -86,28 +90,47 @@ function renderModule(id: ModuleId, onNavigate: (id: ModuleId) => void) {
   }
 }
 
-function App() {
-  const [selectedDay, setSelectedDay] = useState<ModuleSection>(loadSelectedDay);
-  const [activeModule, setActiveModule] = useState<ModuleId>(() => resolveInitialModule(loadSelectedDay()));
+function DefaultRedirect() {
+  return <Navigate to={getDefaultPath()} replace />;
+}
+
+function LearningLayout() {
+  const { dayId, moduleId } = useParams<{ dayId: string; moduleId: string }>();
+  const navigate = useNavigate();
+  const { day: selectedDay, moduleId: activeModule, redirectTo } = resolveRouteParams(
+    dayId,
+    moduleId
+  );
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { header, hero, footer } = appShell;
 
-  const navigateToModule = useCallback((id: ModuleId) => {
-    const module = learningModules.find((m) => m.id === id);
-    if (!module) return;
-    setActiveModule(id);
-    setSelectedDay(module.section);
-    saveSelectedDay(module.section);
-    saveLastModuleForDay(module.section, id);
-  }, []);
+  useEffect(() => {
+    if (redirectTo) {
+      navigate(redirectTo, { replace: true });
+    }
+  }, [redirectTo, navigate]);
 
-  const handleDayChange = useCallback((day: ModuleSection) => {
-    setSelectedDay(day);
-    saveSelectedDay(day);
-    const moduleId = resolveInitialModule(day);
-    setActiveModule(moduleId);
-    saveLastModuleForDay(day, moduleId);
-  }, []);
+  useEffect(() => {
+    saveSelectedDay(selectedDay);
+    saveLastModuleForDay(selectedDay, activeModule);
+  }, [selectedDay, activeModule]);
+
+  const navigateToModule = useCallback(
+    (id: ModuleId) => {
+      const module = learningModules.find((m) => m.id === id);
+      if (!module) return;
+      navigate(getModulePath(module.section, id));
+    },
+    [navigate]
+  );
+
+  const handleDayChange = useCallback(
+    (day: ModuleSection) => {
+      const firstModule = getFirstModuleInSection(day);
+      navigate(getModulePath(day, firstModule.id));
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -125,6 +148,10 @@ function App() {
       document.body.style.overflow = '';
     };
   }, [sidebarOpen]);
+
+  if (redirectTo) {
+    return null;
+  }
 
   const daySubtitle = sectionMeta[selectedDay].label;
 
@@ -264,6 +291,16 @@ function App() {
         </div>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<DefaultRedirect />} />
+      <Route path="/day/:dayId/module/:moduleId" element={<LearningLayout />} />
+      <Route path="*" element={<DefaultRedirect />} />
+    </Routes>
   );
 }
 
