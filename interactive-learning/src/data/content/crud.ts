@@ -27,7 +27,7 @@ export const crudContent = {
   keyConcept: {
     title: 'Key Concept',
     intro:
-      'Every CRUD operation follows the same layer pattern. The specific implementation varies, but the architectural flow remains consistent. This predictability makes Express applications easier to understand, test, and maintain.',
+      'Every CRUD operation starts in the Taskflow React UI (Add task, View, Edit, Delete) and follows the same layer pattern on the API. The UI action maps to fetch(); the architectural flow through Route → Controller → Service → Repository stays consistent.',
     whyLayersTitle: 'Why layers matter:',
     bullets: [
       'Tests can mock each layer independently',

@@ -1,4 +1,6 @@
 export const lifecycleContent = {
+  intro:
+    'Step 1 starts in the Taskflow React app: a form submit or button calls fetch() toward the API. The rest of the timeline is the server-side path that same request follows.',
   timelineTitle: 'Timeline',
   fieldLabels: {
     dataIn: 'Data in',

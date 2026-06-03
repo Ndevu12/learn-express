@@ -1,0 +1,35 @@
+name: Interactive Learning CI
+
+on:
+  push:
+    paths:
+      - 'interactive-learning/**'
+      - '.github/workflows/interactive-learning-ci.yml'
+  pull_request:
+    paths:
+      - 'interactive-learning/**'
+      - '.github/workflows/interactive-learning-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: interactive-learning
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: interactive-learning/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build

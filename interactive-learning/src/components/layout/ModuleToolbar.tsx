@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button';
 import {
-  getAdjacentModule,
-  getModuleIndex,
+  getAdjacentModuleInSection,
+  getModuleIndexInSection,
   learningModules,
+  modulesBySection,
   sectionMeta,
   type ModuleId,
 } from '@/data/modules';
@@ -15,10 +16,11 @@ interface ModuleToolbarProps {
 
 export function ModuleToolbar({ activeModule, onNavigate }: ModuleToolbarProps) {
   const current = learningModules.find((m) => m.id === activeModule);
-  const prev = getAdjacentModule(activeModule, 'prev');
-  const next = getAdjacentModule(activeModule, 'next');
+  const prev = getAdjacentModuleInSection(activeModule, 'prev');
+  const next = getAdjacentModuleInSection(activeModule, 'next');
   const section = current ? sectionMeta[current.section] : null;
-  const moduleNumber = getModuleIndex(activeModule) + 1;
+  const dayModules = current ? modulesBySection(current.section) : [];
+  const moduleNumber = getModuleIndexInSection(activeModule) + 1;
 
   if (!current) return null;
 
@@ -31,7 +33,7 @@ export function ModuleToolbar({ activeModule, onNavigate }: ModuleToolbarProps) 
           </p>
         )}
         <p className="text-xs font-medium tabular-nums text-slate-500">
-          Module {moduleNumber} of {learningModules.length}
+          Module {moduleNumber} of {dayModules.length}
         </p>
         <h2 className="text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">{current.label}</h2>
         <p className="max-w-xl text-sm text-slate-600">{current.description}</p>

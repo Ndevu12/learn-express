@@ -23,8 +23,8 @@ export const jwtExplorerContent = {
     title: 'Lifecycle Summary',
     steps: [
       'User logs in → JWT generated with user ID and role (authentication)',
-      'Client receives token and stores it',
-      'Client sends token in Authorization header with each request',
+      'Taskflow React app receives token; AuthContext stores it in localStorage',
+      'fetch() from Tasks tab sends Authorization: Bearer on each request',
       'Server verifies signature and expiration (authentication)',
       'If valid, user identity is attached to the request',
       'Separate authorization middleware decides if the action is allowed (403 if not)',
