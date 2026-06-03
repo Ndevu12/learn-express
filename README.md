@@ -23,17 +23,6 @@ Teach backend development by **following one HTTP request** as it gains layers e
 
 Install dependencies **inside each project folder** (there is no single root `npm install`). See [Getting started](#-getting-started) below. Auth setup and demo users: [day-4-auth-and-security/auth/README.md](day-4-auth-and-security/auth/README.md).
 
-### Former paths (folder reorg)
-
-If an older link or video still uses these locations:
-
-| Former | Now |
-|--------|-----|
-| `nodeserver.js`, `expressapp.js` (repo root) | `day-1-http-and-express/` |
-| `expressBasics/` | `day-2-structured-api/express-basics/` |
-| `task/` | `day-2-structured-api/task-api/` |
-| `task-mongo/` | `day-3-persistence/task-mongo/` |
-| `auth/` | `day-4-auth-and-security/auth/` |
 
 ## 📚 Overview
 
@@ -276,11 +265,11 @@ Coming from native Node.js HTTP servers, Express provides:
 | **Learning Curve** | Steep | Gentle progression |
 | **Production Ready** | Possible but complex | Yes, out of the box |
 
-## 🎓 Interactive learning (Days 2–4 modules)
+## 🎓 Interactive learning
 
 **Path:** [interactive-learning/](interactive-learning/)
 
-One Vite app with modules for architecture, request lifecycle, CRUD, validation, errors, middleware, and full auth (JWT, RBAC, end-to-end). Maps to **Day 2b** and **Day 4** in [docs/CURRICULUM.md](docs/CURRICULUM.md); Day 1 and Day 3 modules are planned.
+One Vite app with modules for architecture, request lifecycle, CRUD, validation, errors, middleware, and full auth (JWT, RBAC, end-to-end);
 
 ### Topics in the app
 
@@ -349,28 +338,6 @@ To understand what Express simplifies, here's how to build a basic HTTP server w
 
 ### Basic HTTP Server Structure
 
-```javascript
-const http = require('http');
-
-const server = http.createServer((req, res) => {
-  // Handle routing manually with if/else
-  if (req.url === '/' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World');
-  } else if (req.url === '/users' && req.method === 'GET') {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ users: [] }));
-  } else {
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not Found');
-  }
-});
-
-server.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
-```
-
 ### Key Challenges with Native Node.js HTTP:
 
 1. **Manual Routing**: Every route requires if/else statements
@@ -384,16 +351,6 @@ server.listen(3000, () => {
 ### Why Express is Better
 
 See `day-1-http-and-express/expressapp.js` for how Express simplifies all of this with just a few lines:
-
-```javascript
-const express = require('express');
-const app = express();
-
-app.get('/', (req, res) => res.send('Hello World'));
-app.get('/users', (req, res) => res.json({ users: [] }));
-
-app.listen(3000);
-```
 
 **Result**: 
 - No manual routing logic
@@ -503,11 +460,17 @@ export const createTaskController = async (req, res) => {
 ## 🔍 Best Practices Demonstrated
 
 ✅ Separation of concerns (layers: controller, service, repository)
+
 ✅ Input validation at controller level
+
 ✅ Error handling with appropriate HTTP status codes
+
 ✅ RESTful endpoint design
+
 ✅ Middleware integration
+
 ✅ Async/await for asynchronous operations
+
 ✅ Environment-aware configuration
 
 ## 🐛 Debugging Tips
