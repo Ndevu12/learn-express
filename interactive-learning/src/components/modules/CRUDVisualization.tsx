@@ -3,6 +3,7 @@ import { Card } from '../shared/Card';
 import { Section, PracticalRequestPanel } from '@/components/shared/learning';
 import { day2CrudPracticalSection } from '@/data/content/http-client-examples';
 import { Badge } from '../shared/Badge';
+import { CodeBlock } from '../shared/CodeBlock';
 import { crudOperations } from '@/data/examples';
 import { crudContent, crudOperationStyles, type CrudHttpMethod } from '@/data/content/crud';
 import { getModuleSection } from '@/data/module-sections';
@@ -66,24 +67,15 @@ export const CRUDVisualization: React.FC = () => {
           {/* Request/Response */}
           <div className="grid grid-cols-1 gap-3">
             <Card className="bg-green-50 border-green-200">
-              <p className="text-xs font-semibold text-green-700 uppercase tracking-wide mb-2">Request</p>
-              <div className="bg-white p-3 rounded font-mono text-xs text-slate-700 overflow-x-auto">
-                <pre>{operation.request}</pre>
-              </div>
+              <CodeBlock code={operation.request} language="http" title="Request" />
             </Card>
 
             <Card className="bg-blue-50 border-blue-200">
-              <p className="text-xs font-semibold text-blue-700 uppercase tracking-wide mb-2">Success Response</p>
-              <div className="bg-white p-3 rounded font-mono text-xs text-slate-700 overflow-x-auto">
-                <pre>{operation.response}</pre>
-              </div>
+              <CodeBlock code={operation.response} language="http" title="Success Response" />
             </Card>
 
             <Card className="bg-red-50 border-red-200">
-              <p className="text-xs font-semibold text-red-700 uppercase tracking-wide mb-2">Error Response</p>
-              <div className="bg-white p-3 rounded font-mono text-xs text-slate-700 overflow-x-auto">
-                <pre>{operation.error}</pre>
-              </div>
+              <CodeBlock code={operation.error} language="http" title="Error Response" />
             </Card>
           </div>
         </div>
