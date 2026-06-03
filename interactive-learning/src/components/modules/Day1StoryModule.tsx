@@ -3,6 +3,7 @@ import { day1StoryContent } from '@/data/content/day1-story';
 import { getModuleSection } from '@/data/module-sections';
 import { Callout, Panel, Section } from '@/components/shared/learning';
 import { FlowDiagram } from '../shared/FlowDiagram';
+import { CodeBlock } from '../shared/CodeBlock';
 
 export const Day1StoryModule: React.FC = () => {
   const section = getModuleSection('day1story');
@@ -22,9 +23,9 @@ export const Day1StoryModule: React.FC = () => {
         <p className="text-sm font-medium not-italic text-amber-900/80">
           Maya clicks &ldquo;{day1StoryContent.pullQuote}&rdquo;
         </p>
-        <pre className="mt-3 overflow-x-auto text-sm leading-relaxed text-slate-800">
-          {day1StoryContent.logLine}
-        </pre>
+        <div className="mt-3">
+          <CodeBlock code={day1StoryContent.logLine} language="http" />
+        </div>
       </blockquote>
 
       <Callout title="Next" variant="info">

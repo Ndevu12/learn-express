@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { CodeBlock } from './CodeBlock';
 
 interface LayerCardProps {
   name: string;
@@ -73,9 +74,9 @@ export const LayerCard: React.FC<LayerCardProps> = ({
             {showCode ? 'Hide code' : 'Show code'}
           </button>
           {showCode && (
-            <pre className="mt-3 overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-slate-50">
-              {codeExample}
-            </pre>
+            <div className="mt-3">
+              <CodeBlock code={codeExample} language="javascript" />
+            </div>
           )}
         </>
       )}
