@@ -1281,6 +1281,29 @@ export const authMongoFlowSnippet = `// Conceptual: auth + Mongo (Day 4 extensio
 // 3. GET /tasks + Bearer token → authMiddleware → req.user
 // 4. taskRepository.getAllTaskRepository(userId) → tasks where userId matches`;
 
+/** Practical HTTP client snippets — see interactive-learning modules or http-client-examples.ts */
+export {
+  API_BASE,
+  day1FetchGetHome,
+  day1FetchPostRoot,
+  day1FetchPostJson,
+  day2FetchGetTasks,
+  day2FetchPostTask,
+  day2AxiosGetTasks,
+  day2AxiosPostTask,
+  day4FetchLogin,
+  day4FetchAuthorizedTasks,
+  day4FetchUnauthorizedTasks,
+  day4AxiosLogin,
+  day4AxiosAuthorizedTasks,
+  day1PracticalSection,
+  day2CrudPracticalSection,
+} from './content/http-client-examples';
+export {
+  day4PracticalHttpSection,
+  day4PracticalHttpSection as day4AuthPracticalSection,
+} from './content/day4-practical-http';
+
 export const keyTakeaways = {
   architecture: [
     'Each layer has a single responsibility',

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { httpRequestContent } from '@/data/content/day1-http-request';
+import { day1PracticalSection } from '@/data/content/http-client-examples';
 import { getModuleSection } from '@/data/module-sections';
-import { Callout, ContentGrid, Panel, Section } from '@/components/shared/learning';
+import { Callout, ContentGrid, Panel, PracticalRequestPanel, Section } from '@/components/shared/learning';
 import { CodeBlock } from '../shared/CodeBlock';
 import { cn } from '@/lib/utils';
 
@@ -65,6 +66,8 @@ export const HttpRequestModule: React.FC = () => {
       <Callout title={httpRequestContent.principle.title} variant="info">
         {httpRequestContent.principle.body}
       </Callout>
+
+      <PracticalRequestPanel section={day1PracticalSection} className="mt-6" />
 
       <Callout title={httpRequestContent.runnable.title} variant="info">
         {httpRequestContent.runnable.body}

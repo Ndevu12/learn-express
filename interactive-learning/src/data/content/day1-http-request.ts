@@ -49,6 +49,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
     'Response headers — e.g. Content-Type: application/json',
     'Response body — JSON, text, or empty',
   ],
+  practicalLink: {
+    title: 'Start here: call the API with fetch',
+    body: 'Scroll to **Practical: call the API** below — paste GET and POST snippets in the browser console while expressapp.js runs on port 5000.',
+  },
   runnable: {
     title: 'Try it locally',
     body: 'Day 1 runnable projects live in day-1-http-and-express/. Start with nodeserver.js (native HTTP) and expressapp.js (minimal Express on port 5000).',

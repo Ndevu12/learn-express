@@ -19,3 +19,9 @@ export { persistenceContent } from './day3-persistence';
 export { mongodbContent } from './day3-mongodb';
 export { mongoRepositoryContent } from './day3-mongo-repository';
 export { authMongoContent } from './auth-mongo';
+export { practicalHttpContent, day4PracticalHttpSection } from './day4-practical-http';
+export {
+  API_BASE,
+  day1PracticalSection,
+  day2CrudPracticalSection,
+} from './http-client-examples';

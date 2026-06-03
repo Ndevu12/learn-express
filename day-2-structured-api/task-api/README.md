@@ -40,6 +40,14 @@ Client → Route → Controller → Service → Repository (in-memory) → Respo
 
 **Body fields:** `title` (string), `priority` (1–5), `deadline` (date string). Duplicate titles return **409**.
 
+**Try it with fetch** (browser console, API running):
+
+```javascript
+await fetch("http://localhost:4000/tasks").then((r) => r.json());
+```
+
+The **CRUD** module in [interactive-learning](../../interactive-learning/) shows fetch and axios side by side.
+
 ## CRUD examples (curl)
 
 ```bash

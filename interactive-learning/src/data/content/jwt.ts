@@ -19,12 +19,16 @@ export const jwtExplorerContent = {
       { title: 'Wrong secret', body: 'Attacker signs with different secret. Verification fails (401).' },
     ],
   },
+  practical: {
+    title: 'Try it: send the token',
+    body: 'After login, every protected request needs Authorization: Bearer <token>. Copy the snippets in **Call the API: fetch & axios** (last Day 4 module) and compare with DevTools → Network in the Taskflow UI.',
+  },
   lifecycleSummary: {
     title: 'Lifecycle Summary',
     steps: [
       'User logs in → JWT generated with user ID and role (authentication)',
-      'Taskflow React app receives token; AuthContext stores it in localStorage',
-      'fetch() from Tasks tab sends Authorization: Bearer on each request',
+      'Client stores token (localStorage or a variable in your script)',
+      'fetch() or axios sends Authorization: Bearer on each protected request',
       'Server verifies signature and expiration (authentication)',
       'If valid, user identity is attached to the request',
       'Separate authorization middleware decides if the action is allowed (403 if not)',
