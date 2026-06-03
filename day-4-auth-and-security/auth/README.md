@@ -1,18 +1,20 @@
-# Session 4: Authentication & Security (Runnable Projects)
+# Day 4 — Authentication & security (runnable projects)
 
-Companion implementations for the [interactive-learning](../interactive-learning/) module. Run the **API first**, then the **UI**.
+**Curriculum:** [docs/CURRICULUM.md](../../docs/CURRICULUM.md) · **Day index:** [../README.md](../README.md)
+
+Companion implementations for the [interactive-learning](../../interactive-learning/) module — **Express API** plus **Taskflow React frontend** (`task-with-auth-ui`). Run the **API first**, then the **UI**.
 
 ## Quick start
 
 ```bash
 # Terminal 1 — Auth API (port 4000)
-cd auth/task-with-auth
+cd day-4-auth-and-security/auth/task-with-auth
 cp .env.example .env   # optional
 npm install
 npm run dev
 
 # Terminal 2 — Auth UI (port 5173)
-cd auth/task-with-auth-ui
+cd day-4-auth-and-security/auth/task-with-auth-ui
 cp .env.example .env   # optional
 npm install
 npm run dev
@@ -144,5 +146,6 @@ auth/
 
 ## Related
 
-- Interactive module: [interactive-learning/README.md](../interactive-learning/README.md)
-- Unauthenticated task API (Session 3): [task/](../task/)
+- Interactive module: [interactive-learning/README.md](../../interactive-learning/README.md)
+- Unauthenticated task API (Day 2b): [task-api](../../day-2-structured-api/task-api/README.md)
+- MongoDB task API (Day 3): [task-mongo](../../day-3-persistence/task-mongo/README.md)
