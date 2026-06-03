@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { PracticalSection } from '@/data/content/http-client-examples';
 import { Callout, Panel, SegmentedTabs } from '@/components/shared/learning';
 import { CodeBlock } from '@/components/shared/CodeBlock';
+import { isHttpClientTab } from '@/lib/routes';
 
 interface PracticalRequestPanelProps {
   section: PracticalSection;
@@ -9,9 +10,26 @@ interface PracticalRequestPanelProps {
 }
 
 export function PracticalRequestPanel({ section, className }: PracticalRequestPanelProps) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const defaultTab = section.tabs[0]?.id ?? 'fetch';
-  const [activeTab, setActiveTab] = useState<'fetch' | 'axios'>(defaultTab);
+  const clientParam = searchParams.get('client');
+  const activeTab: 'fetch' | 'axios' = isHttpClientTab(clientParam) ? clientParam : defaultTab;
   const active = section.tabs.find((tab) => tab.id === activeTab) ?? section.tabs[0];
+
+  const setActiveTab = (tab: 'fetch' | 'axios') => {
+    setSearchParams(
+      (current) => {
+        const next = new URLSearchParams(current);
+        if (tab === defaultTab) {
+          next.delete('client');
+        } else {
+          next.set('client', tab);
+        }
+        return next;
+      },
+      { replace: true }
+    );
+  };
 
   return (
     <Panel title={section.title} variant="muted" className={className}>
