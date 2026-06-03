@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { getModulePath } from '@/lib/routes';
 import {
   getModuleIndexInSection,
   modulesBySection,
@@ -17,7 +19,6 @@ interface ModuleSidebarProps {
 export function ModuleSidebar({
   selectedDay,
   activeModule,
-  onSelect,
   onClose,
   className,
 }: ModuleSidebarProps) {
@@ -28,10 +29,13 @@ export function ModuleSidebar({
       ? ((activeIndex + 1) / dayModules.length) * 100
       : 0;
 
-  const handleSelect = (id: ModuleId) => {
-    onSelect(id);
-    onClose?.();
-  };
+  const linkClassName = (isActive: boolean) =>
+    cn(
+      'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm transition-colors',
+      isActive
+        ? 'bg-slate-900 font-medium text-white'
+        : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+    );
 
   return (
     <aside
@@ -66,15 +70,10 @@ export function ModuleSidebar({
             const isActive = module.id === activeModule;
             return (
               <li key={module.id}>
-                <button
-                  type="button"
-                  onClick={() => handleSelect(module.id)}
-                  className={cn(
-                    'flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-sm transition-colors',
-                    isActive
-                      ? 'bg-slate-900 font-medium text-white'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  )}
+                <Link
+                  to={getModulePath(selectedDay, module.id)}
+                  onClick={() => onClose?.()}
+                  className={linkClassName(isActive)}
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <span
@@ -86,7 +85,7 @@ export function ModuleSidebar({
                     {index + 1}
                   </span>
                   <span className="min-w-0 flex-1 truncate">{module.label}</span>
-                </button>
+                </Link>
               </li>
             );
           })}
