@@ -11,6 +11,7 @@ export const ErrorHandlingModule: React.FC = () => {
 
   return (
     <Section {...section}>
+      <p className="mb-6 text-base text-slate-600">{content.intro}</p>
       <Panel title={content.propagation.title}>
         <p className="mb-6 text-slate-600">{content.propagation.description}</p>
         <FlowDiagram steps={content.propagation.steps} direction="vertical" />

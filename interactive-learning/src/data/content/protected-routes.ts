@@ -1,4 +1,6 @@
 export const protectedRoutesContent = {
+  intro:
+    'The Taskflow React app uses ProtectedRoute to guard /app/tasks and /app/docs — that is UX only. The API must still verify the JWT and return 401 or 403; the UI redirects to /login on 401 from task endpoints.',
   selectScenarioPrompt: 'Select a scenario:',
   labels: {
     request: 'HTTP request',

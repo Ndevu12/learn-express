@@ -14,6 +14,7 @@ export const ValidationModule: React.FC = () => {
 
   return (
     <Section {...section}>
+      <p className="mb-6 text-base text-slate-600">{content.intro}</p>
       {/* Pattern Selector */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
         {validationPatterns.map((p, idx) => (

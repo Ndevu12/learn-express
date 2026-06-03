@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { getAdjacentModule, type ModuleId } from '@/data/modules';
+import { getAdjacentModuleInSection, type ModuleId } from '@/data/modules';
 
 interface ModulePaginationProps {
   activeModule: ModuleId;
@@ -7,8 +7,8 @@ interface ModulePaginationProps {
 }
 
 export function ModulePagination({ activeModule, onNavigate }: ModulePaginationProps) {
-  const prev = getAdjacentModule(activeModule, 'prev');
-  const next = getAdjacentModule(activeModule, 'next');
+  const prev = getAdjacentModuleInSection(activeModule, 'prev');
+  const next = getAdjacentModuleInSection(activeModule, 'next');
 
   if (!prev && !next) return null;
 

@@ -1,29 +1,46 @@
-# Session 4: Authentication & Security - Interactive Learning Module
+# Interactive Learning — Following the Request
 
-An interactive, web-based learning experience that teaches authentication, authorization, JWT tokens, and RBAC in Express.js through real code examples and visual explanations.
+[![Interactive Learning CI](https://github.com/Ndevu12/learn-express/actions/workflows/interactive-learning-ci.yml/badge.svg)](https://github.com/Ndevu12/learn-express/actions/workflows/interactive-learning-ci.yml)
 
-## 🎯 What You'll Learn
+Interactive React modules for the Learn Express workshop (this app is also React — meta only). A **day picker** in the header switches Day 1–4; the sidebar shows modules for the selected day. Previous/Next navigation stays within that day.
 
-This module provides a comprehensive learning journey through building secure Express applications:
+**Taskflow product stack in this repo:** Express APIs (`task-api`, `task-mongo`, `task-with-auth`) plus the **Taskflow task UI** built with **React + Vite** (`day-4-auth-and-security/auth/task-with-auth-ui`). Day 1–3 narrative follows the same React client calling those APIs; Day 4 runnable covers API port **4000** and UI port **5173**.
 
-### **Fundamentals** 🏗️
-- **Production Architecture Overview** - Layered architecture with routes, middleware, controllers, services, and repositories
-- **Request Lifecycle** - Complete HTTP request/response cycle through all layers
+## Checks
 
-### **Authentication & Security** 🔐
-- **Authentication Flow** - Complete registration and login process with password hashing and JWT generation
-- **JWT Deep Dive** - Structure of JWT tokens (Header.Payload.Signature), lifecycle, and verification
-- **Protected Routes** - How token validation determines access (401 vs 403, valid vs invalid tokens)
-- **Role-Based Access Control (RBAC)** - Defining roles, assigning permissions, and enforcing authorization
-- **End-to-End Flow** - Complete visual journey from login through authenticated API request with RBAC
+Pull requests that touch `interactive-learning/` run **Interactive Learning CI**: `npm ci` and `npm run build` on Node 20. See [.github/workflows/interactive-learning-ci.yml](../.github/workflows/interactive-learning-ci.yml).
 
-### **Advanced Topics** ⚡
-- **CRUD Operations** - Deep dive into Create, Read, Update, Delete with real examples
+## What You'll Learn
+
+### **Day 1 — The Request Arrives**
+- **A Request Arrives** — Maya clicks Add task in the Taskflow React app; POST /tasks leaves the client layer
+- **HTTP & the Request** — method, URL, headers, body
+- **Node Native Server** — manual routing with `http.createServer` (`nodeserver.js`)
+- **First Express Routes** — `app.get` / `app.post`, `req` / `res` (`expressapp.js`)
+
+### **Day 2 — Structured Application**
+- **Production Architecture Overview** - React (Taskflow UI) → routes, middleware, controllers, services, repositories
+- **Request Lifecycle** - React fetch() through the full HTTP request/response cycle
+- **CRUD Operations** - Create, Read, Update, Delete with real examples
+- **Middleware Pipeline** - Middleware execution order and the `next()` function
 - **Validation** - Production-grade input validation patterns
 - **Error Handling** - Error propagation and recovery strategies
-- **Middleware Pipeline** - Middleware execution order and the `next()` function
 
-## 🚀 Getting Started
+### **Day 3 — Persistent Storage**
+- **Why Persistence?** — in-memory vs data that survives restart
+- **MongoDB & Connection** — env, Mongoose, `task-mongo` on port 4001
+- **Repository with Mongo** — same interface as Day 2, MongoDB implementation
+
+### **Day 4 — Trust & Authorization**
+- **Auth vs Authorization** - Identity (401) versus permissions (403)
+- **Authentication Flow** - Registration, login, password hashing, and JWT generation
+- **JWT Deep Dive** - Token structure, lifecycle, and verification
+- **Protected Routes** - Token validation and access decisions
+- **Role-Based Access Control (RBAC)** - Roles, permissions, and authorization
+- **End-to-End Flow** - Complete secure request journey
+- **Auth + MongoDB** - Users and tasks collections; run API + React UI (4000 + 5173)
+
+## Getting Started
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -101,24 +118,29 @@ interactive-learning/
 
 ## 📚 How to Use
 
+1. Choose **Day 1**, **Day 2**, **Day 3**, or **Day 4** in the header day picker (mobile: under the header bar).
+2. Use the sidebar to open a module for that day only (your last module per day is remembered in the browser session).
+3. Use **Previous** / **Next** to move through modules on the same day; switch days explicitly when you are ready.
+
 ### Learning Path
 
-1. **Start with Fundamentals**
+1. **Day 1 — The Request Arrives**
+   - A Request Arrives, then HTTP parts, Node native server, first Express routes
+
+2. **Day 2 — Structured Application**
    - Architecture Overview: Understand the layered structure
    - Request Lifecycle: See how requests flow through layers
+   - CRUD, Middleware, Validation, Error Handling: Production API patterns
 
-2. **Learn Authentication & Security** (NEW!)
+2. **Day 3 — Persistent Storage**
+   - Why persistence, MongoDB connection, repository contrast with Day 2
+
+3. **Day 4 — Trust & Authorization**
+   - Auth vs Authorization: 401 vs 403
    - Authentication Flow: Registration → Login → Token Generation
    - JWT Tokens: Structure, lifecycle, verification
-   - Protected Routes: Access control decisions
-   - RBAC: Roles, permissions, authorization
+   - Protected Routes & RBAC: Access control decisions
    - End-to-End: Complete secure application flow
-
-3. **Master Advanced Topics**
-   - CRUD Operations: Real API examples
-   - Validation: Production patterns
-   - Error Handling: Recovery strategies
-   - Middleware: Pipeline execution
 
 ### Interactive Features
 
@@ -172,12 +194,12 @@ All code examples are from real, production-ready implementations:
 - RBAC implementation
 - Error handling patterns
 
-Reference the actual code (run locally — see [auth/README.md](../auth/README.md)):
+Reference the actual code (run locally — see [auth/README.md](../day-4-auth-and-security/auth/README.md)):
 
-- Backend API: `../auth/task-with-auth/` (port **4000**)
-- React UI: `../auth/task-with-auth-ui/` (port **5173**)
+- Backend API: `../day-4-auth-and-security/auth/task-with-auth/` (port **4000**)
+- React UI: `../day-4-auth-and-security/auth/task-with-auth-ui/` (port **5173**)
 - Demo accounts: `user@learn-express.test` / `user123`, `admin@learn-express.test` / `admin123`
-- Middleware: `../auth/task-with-auth/src/middleware/authMiddleware.js`
+- Middleware: `../day-4-auth-and-security/auth/task-with-auth/src/middleware/authMiddleware.js`
 
 ## 🔗 External Resources
 
@@ -243,7 +265,7 @@ Recent enhancements include:
 ✅ RBAC visualization and implementation
 ✅ End-to-end flow visualization
 ✅ Improved accessibility (ARIA labels, keyboard navigation)
-✅ Organized learning path (Fundamentals → Auth → Advanced)
+✅ Header day picker; sidebar scoped to the selected day only
 ✅ Enhanced code examples
 ✅ Better visual hierarchy
 

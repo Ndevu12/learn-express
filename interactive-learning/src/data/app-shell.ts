@@ -5,20 +5,20 @@ export interface FooterResource {
 
 export const appShell = {
   header: {
-    sessionTitle: 'Session 4: Authentication & Security',
-    fallbackSubtitle: 'Interactive learning',
+    sessionTitle: 'Learn Express — Taskflow',
+    fallbackSubtitle: 'Task management API',
     menuButtonLabel: 'Modules',
     closeMenuLabel: 'Close module menu',
   },
   hero: {
-    badge: 'Learn Express · Interactive Module',
-    title: 'Build secure Express APIs',
+    badge: 'Learn Express · Taskflow',
+    title: 'Maya clicks Add task',
     description:
-      'Work through authentication, JWTs, authorization, and RBAC with interactive visualizations and real code examples—at your own pace, module by module.',
+      'Maya is on the Taskflow team, shipping a task management product. In the Taskflow web app (React), she types "Deploy v2 to staging" and clicks Add task — the SPA sends POST /tasks with JSON. Follow that one request through the layers: client, server, route, controller, and beyond.',
   },
   footer: {
     conceptsTitle: 'Concepts covered',
-    concepts: ['401 vs 403', 'JWT', 'Hashing', 'Auth', 'RBAC', 'Protected routes'] as const,
+    concepts: ['HTTP request', 'Layered API', 'MongoDB', 'CRUD', 'Middleware', 'JWT', 'RBAC'] as const,
     resourcesTitle: 'Resources',
     resources: [
       { label: 'Express.js', href: 'https://expressjs.com/' },
@@ -27,9 +27,9 @@ export const appShell = {
       { label: 'OWASP', href: 'https://owasp.org/www-community/attacks/csrf' },
     ] satisfies FooterResource[],
     aboutTitle: 'About',
-    aboutDescription: 'Production-ready authentication patterns for Express',
+    aboutDescription: 'Interactive modules for the Taskflow API',
     aboutBody:
-      'Use the sidebar to jump between topics, or follow Next to complete the full learning path in order.',
+      'Each module walks through one layer of the same POST /tasks request — from the Taskflow React UI through the API to persisted, authenticated tasks.',
     copyright: '© 2026 Learn Express',
   },
 } as const;

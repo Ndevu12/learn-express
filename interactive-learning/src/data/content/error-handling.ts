@@ -1,6 +1,8 @@
 import type { FlowDiagramStep, StatusCodeItem } from '../types';
 
 export const errorHandlingContent = {
+  intro:
+    'Errors bubble up through services and controllers into HTTP status codes and JSON bodies. The Taskflow React app displays those messages in FormAlert and task modals — but the API must format them consistently.',
   propagation: {
     title: 'Error Propagation Flow',
     description:

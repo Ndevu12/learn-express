@@ -1,7 +1,7 @@
 {
   "name": "session-4-interactive-learning",
   "version": "1.0.0",
-  "description": "Interactive learning module for Express.js Session 4: Authentication & Security",
+  "description": "Interactive learning app for the learn-express curriculum (Vite + React)",
   "type": "module",
   "scripts": {
     "dev": "vite",
