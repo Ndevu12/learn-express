@@ -109,7 +109,7 @@ Then open http://localhost:3000 and interact with:
 ## References
 
 - Module documentation: `interactive-learning/README.md`
-- All examples sourced from: `task/src/` (Task Management API)
+- All examples sourced from: `day-2-structured-api/task-api/src/` (Task Management API)
 - Learning materials: Existing course materials untouched
 
 ## Commits
