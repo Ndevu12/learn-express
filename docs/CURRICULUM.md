@@ -30,6 +30,8 @@ Learn Express teaches backend development by **following one HTTP request** as i
 - `nodeserver.js` — native HTTP, manual routing
 - `expressapp.js` — minimal Express (port 5000)
 
+**Try it:** curl or browser `fetch` against port 5000 (Day 1) or `fetch`/`axios` against port 4000 (Days 2–4). Interactive modules include copy-paste **Practical: call the API** panels.
+
 **Goal:** Compare manual servers with Express before any project folders.
 
 ---

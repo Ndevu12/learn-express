@@ -30,4 +30,8 @@ export const day1StoryContent = {
     'POST /tasks HTTP/1.1\nContent-Type: application/json\n\n{"title":"Deploy v2 to staging"}',
   closing:
     'The request is in flight. In the next module, name every part of it — method, URL, headers, body. Tomorrow the same POST will match a route and land in a controller.',
+  practicalHint: {
+    title: 'Try it yourself first',
+    body: 'You do not need the Taskflow UI to learn HTTP. In the **HTTP request** module, use fetch against http://localhost:5000 while expressapp.js is running — then compare what you sent with Maya\'s POST /tasks log above.',
+  },
 };

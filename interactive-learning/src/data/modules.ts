@@ -15,6 +15,7 @@ export type ModuleId =
   | 'rbac'
   | 'endtoend'
   | 'authmongo'
+  | 'practicalhttp'
   | 'crud'
   | 'validation'
   | 'errors'
@@ -201,6 +202,13 @@ export const learningModules: LearningModule[] = [
     shortLabel: 'Auth Mongo',
     section: 'day4',
     description: 'Users and tasks collections; Day 3 → Day 4',
+  },
+  {
+    id: 'practicalhttp',
+    label: 'Call the API: fetch & axios',
+    shortLabel: 'fetch/axios',
+    section: 'day4',
+    description: 'Copy-paste login and protected requests against port 4000',
   },
 ];
 

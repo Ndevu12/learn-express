@@ -60,6 +60,10 @@ export const authMongoContent = {
       'USE_MONGO=true — feature flag to swap in-memory repos for Mongoose (when enabled in your fork)',
     ],
   },
+  practical: {
+    title: 'Practical: verify with fetch or axios',
+    body: 'Start the auth API on port 4000. POST /auth/login, save token, GET /tasks with Authorization header. The React UI does the same — use DevTools → Network to compare, or run the copy-paste snippets in **Call the API: fetch & axios** (next module).',
+  },
   runnable: {
     title: 'Run API + React UI together',
     steps: [

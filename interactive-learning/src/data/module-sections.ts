@@ -84,6 +84,11 @@ export const moduleSections: Record<ModuleId, ModuleSectionHeader> = {
     title: 'Auth API backed by MongoDB',
     description: 'Run auth API (4000) + React UI (5173); users and user-scoped tasks collections.',
   },
+  practicalhttp: {
+    title: 'Call the API: fetch & axios',
+    description:
+      'Hands-on snippets: login on port 4000, Bearer token on GET /tasks, fetch vs axios, 401 vs 403.',
+  },
 };
 
 export function getModuleSection(id: ModuleId): ModuleSectionHeader {

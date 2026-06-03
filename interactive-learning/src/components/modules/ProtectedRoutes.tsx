@@ -161,6 +161,7 @@ export const ProtectedRoutes: React.FC = () => {
       <Panel title={content.keyPoints.title} variant="muted">
         <CheckList items={content.keyPoints.items} />
       </Panel>
+
     </Section>
   );
 };

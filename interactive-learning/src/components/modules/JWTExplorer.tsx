@@ -144,6 +144,13 @@ export const JWTExplorer: React.FC = () => {
               ))}
             </ol>
           </Panel>
+
+          {content.practical && (
+            <Callout title={content.practical.title} variant="info">
+              {content.practical.body}
+            </Callout>
+          )}
+
         </>
       )}
     </Section>

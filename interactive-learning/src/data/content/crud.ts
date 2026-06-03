@@ -36,4 +36,8 @@ export const crudContent = {
     ],
   },
   flowTitle: '📊 Flow Through Layers',
+  practical: {
+    title: 'Practical: CRUD without the UI',
+    body: 'Run task-api on port 4000, then use fetch or axios below to GET and POST /tasks before tracing layers in the diagram.',
+  },
 } as const;
