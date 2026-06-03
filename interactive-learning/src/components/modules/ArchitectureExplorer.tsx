@@ -4,6 +4,7 @@ import { architectureLayers } from '@/data/examples';
 import { architectureContent } from '@/data/content/architecture';
 import { getModuleSection } from '@/data/module-sections';
 import { Callout, ContentGrid, Panel, Section } from '@/components/shared/learning';
+import { CodeBlock } from '../shared/CodeBlock';
 
 export const ArchitectureExplorer: React.FC = () => {
   const [activeLayer, setActiveLayer] = useState<string>('routes');
@@ -51,9 +52,9 @@ export const ArchitectureExplorer: React.FC = () => {
                 {selectedLayer.codeExample && (
                   <div>
                     <p className="field-label">{architectureContent.codeExampleLabel}</p>
-                    <pre className="mt-2 overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-slate-50">
-                      {selectedLayer.codeExample}
-                    </pre>
+                    <div className="mt-2">
+                      <CodeBlock code={selectedLayer.codeExample} language="javascript" />
+                    </div>
                   </div>
                 )}
               </div>
