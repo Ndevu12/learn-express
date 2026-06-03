@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Card } from '../shared/Card';
 import { CheckList, FieldBlock, Panel, Section, StepNav } from '@/components/shared/learning';
+import { CodeBlock } from '../shared/CodeBlock';
+import { inferSnippetLanguage } from '@/lib/shiki-highlighter';
 import { Badge } from '../shared/Badge';
 import { requestLifecycleStages } from '@/data/examples';
 import { lifecycleContent } from '@/data/content/lifecycle';
@@ -54,19 +56,22 @@ export const RequestLifecycleExplorer: React.FC = () => {
             <div className="space-y-4">
               {stage.data.in && (
                 <FieldBlock label={fieldLabels.dataIn}>
-                  <pre className="whitespace-pre-wrap">{stage.data.in}</pre>
+                  <CodeBlock code={stage.data.in} language={inferSnippetLanguage(stage.data.in)} />
                 </FieldBlock>
               )}
 
               {stage.data.out && (
                 <FieldBlock label={fieldLabels.dataOut}>
-                  <pre className="whitespace-pre-wrap">{stage.data.out}</pre>
+                  <CodeBlock code={stage.data.out} language={inferSnippetLanguage(stage.data.out)} />
                 </FieldBlock>
               )}
 
               {stage.data.example && (
                 <FieldBlock label={fieldLabels.example}>
-                  <pre className="whitespace-pre-wrap">{stage.data.example}</pre>
+                  <CodeBlock
+                    code={stage.data.example}
+                    language={inferSnippetLanguage(stage.data.example)}
+                  />
                 </FieldBlock>
               )}
 

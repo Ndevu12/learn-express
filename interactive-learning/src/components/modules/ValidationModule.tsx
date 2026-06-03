@@ -66,15 +66,11 @@ export const ValidationModule: React.FC = () => {
             <h3 className="font-semibold text-slate-900 mb-4">{content.badRequestTitle}</h3>
             <p className="text-slate-700 mb-4 text-sm font-semibold">{pattern.badRequest.scenario}</p>
 
-            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Request</p>
-            <div className="bg-white p-3 rounded border border-slate-200 font-mono text-xs text-slate-700 overflow-x-auto mb-4">
-              <pre>{pattern.badRequest.request}</pre>
+            <div className="mb-4">
+              <CodeBlock code={pattern.badRequest.request} language="http" title="Request" />
             </div>
 
-            <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-2">Response</p>
-            <div className="bg-white p-3 rounded border border-slate-200 font-mono text-xs text-slate-700 overflow-x-auto">
-              <pre>{pattern.badRequest.response}</pre>
-            </div>
+            <CodeBlock code={pattern.badRequest.response} language="http" title="Response" />
           </Card>
 
           {/* Good Request Scenario */}

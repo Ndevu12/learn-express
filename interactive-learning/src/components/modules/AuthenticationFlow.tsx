@@ -13,6 +13,7 @@ import {
   StepNav,
 } from '@/components/shared/learning';
 import { cn } from '@/lib/utils';
+import { inferSnippetLanguage, type ShikiLanguage } from '@/lib/shiki-highlighter';
 
 function secondaryFieldLabel(data: (typeof authenticationFlow)[0]['data']): string | null {
   const { fieldLabels } = authenticationContent;
@@ -22,6 +23,24 @@ function secondaryFieldLabel(data: (typeof authenticationFlow)[0]['data']): stri
   if (data.payload) return fieldLabels.payload;
   if (data.response) return fieldLabels.response;
   return null;
+}
+
+function secondaryFieldCode(data: (typeof authenticationFlow)[0]['data']): string | null {
+  return (
+    data.out ||
+    data.action ||
+    data.compare ||
+    (data.payload ? JSON.stringify(data.payload, null, 2) : null) ||
+    data.response ||
+    null
+  );
+}
+
+function secondaryFieldLanguage(data: (typeof authenticationFlow)[0]['data']): ShikiLanguage {
+  if (data.payload) return 'json';
+  if (data.response) return 'http';
+  const code = secondaryFieldCode(data);
+  return code ? inferSnippetLanguage(code) : 'javascript';
 }
 
 export const AuthenticationFlow: React.FC = () => {
@@ -71,20 +90,16 @@ export const AuthenticationFlow: React.FC = () => {
             <div className="mt-6 space-y-4">
               {step.data.in && (
                 <FieldBlock label={fieldLabels.input}>
-                  <pre className="whitespace-pre-wrap">{step.data.in}</pre>
+                  <CodeBlock code={step.data.in} language={inferSnippetLanguage(step.data.in)} />
                 </FieldBlock>
               )}
 
-              {outputLabel && (
+              {outputLabel && secondaryFieldCode(step.data) && (
                 <FieldBlock label={outputLabel}>
-                  <pre className="whitespace-pre-wrap">
-                    {step.data.out ||
-                      step.data.action ||
-                      step.data.compare ||
-                      (step.data.payload
-                        ? JSON.stringify(step.data.payload, null, 2)
-                        : step.data.response)}
-                  </pre>
+                  <CodeBlock
+                    code={secondaryFieldCode(step.data)!}
+                    language={secondaryFieldLanguage(step.data)}
+                  />
                 </FieldBlock>
               )}
 

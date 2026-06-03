@@ -27,9 +27,9 @@ export const JWTExplorer: React.FC = () => {
         <>
           <Panel title={content.structureTitle} variant="muted">
             <p className="text-slate-600">{jwtStructure.overview}</p>
-            <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-900 p-4 text-sm text-emerald-400/90">
-              {jwtStructure.fullExample}
-            </pre>
+            <div className="mt-4">
+              <CodeBlock code={jwtStructure.fullExample} language="javascript" title="Example token" />
+            </div>
             <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-3">
               {jwtStructure.parts.map((jwtPart, idx) => (
                 <button
@@ -58,9 +58,10 @@ export const JWTExplorer: React.FC = () => {
                 <div className="mt-6 space-y-4">
                   <div>
                     <p className="field-label mb-2">Decoded content</p>
-                    <pre className="field-value field-value-mono overflow-x-auto">
-                      {JSON.stringify(part.decoded, null, 2)}
-                    </pre>
+                    <CodeBlock
+                      code={JSON.stringify(part.decoded, null, 2)}
+                      language="json"
+                    />
                   </div>
                   <div>
                     <p className="field-label mb-2">Code</p>
