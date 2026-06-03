@@ -265,7 +265,7 @@ See `interactive-learning/session-3/README.md` for installation, learning paths,
 
 ### What You'll Learn
 
-The `interactive-learning/session-4/` module teaches core security topics through interactive visualizations:
+The `interactive-learning/` module teaches core security topics through interactive visualizations:
 
 1. **Authentication Fundamentals** - User login, JWT tokens, password hashing
 2. **Authorization & Permissions** - Role-based access control (RBAC), middleware guards
@@ -277,7 +277,7 @@ The `interactive-learning/session-4/` module teaches core security topics throug
 ### Quick Start
 
 ```bash
-cd interactive-learning/session-4
+cd interactive-learning
 npm install
 npm run dev
 # Opens http://localhost:3000
@@ -285,7 +285,7 @@ npm run dev
 
 ### 📖 Full Documentation
 
-See `interactive-learning/session-4/README.md` for installation and learning guides.
+See [interactive-learning/README.md](interactive-learning/README.md) for installation and learning guides.
 
 ---
 
