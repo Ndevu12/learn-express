@@ -2,7 +2,7 @@ import type { LabeledItem } from '../types';
 
 export const endToEndContent = {
   intro:
-    "This comprehensive visualization shows how all the concepts you've learned come together in a production system. Follow the flow from a user logging in through to retrieving protected resources.",
+    'This visualization follows the real Taskflow stack in the repo: React UI (task-with-auth-ui) on port 5173 and the auth API (task-with-auth) on port 4000. Login stores a JWT in AuthContext; ProtectedRoute guards /app/tasks and /app/docs; session restore uses GET /auth/me on reload.',
   moreStepsLabel: (count: number) => `+${count} more`,
   timeline: {
     title: 'Flow Timeline',
@@ -45,14 +45,15 @@ export const endToEndContent = {
     ],
   },
   clientLayer: {
-    title: 'Client Layer',
-    intro: "The user's browser or application. Responsible for:",
+    title: 'React (Taskflow UI)',
+    intro: 'The Taskflow Vite + React SPA (task-with-auth-ui). Responsible for:',
     bullets: [
-      'Collecting user credentials (email, password)',
-      'Storing token securely (localStorage, sessionStorage, HTTP-only cookie)',
-      'Including token in Authorization header',
-      'Handling 401/403 responses (redirect to login, show error)',
-      'UX improvements (hide buttons, disable forms) based on role',
+      'LoginForm and RegisterForm — POST /auth/login and /auth/register',
+      'AuthContext — JWT and user in localStorage; refreshSession via GET /auth/me',
+      'ProtectedRoute — redirect to /login while loading or unauthenticated',
+      'Tasks tab (/app/tasks) — task CRUD with fetch + Bearer token',
+      'API Docs tab (/app/docs) — endpoint reference; task writes stay on Tasks tab',
+      'FormAlert and modals — show API error JSON from the server',
     ],
   },
   serverLayer: {

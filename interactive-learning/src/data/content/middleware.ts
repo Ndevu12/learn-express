@@ -1,4 +1,6 @@
 export const middlewareContent = {
+  intro:
+    'When the Taskflow React app calls the API (e.g. on port 4000), every request passes through the middleware stack before it reaches a route handler. CORS is what lets the browser SPA on port 5173 talk to the API safely in development.',
   sidebar: {
     pipelineOrderTitle: 'Pipeline Order',
     executionOrderTitle: 'Execution Order',

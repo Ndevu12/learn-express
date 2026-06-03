@@ -6,16 +6,25 @@
 export const architectureLayers = [
   {
     id: 'client',
-    name: 'Client',
-    description: 'Browser or API consumer sends HTTP requests',
+    name: 'React (Taskflow UI)',
+    description: 'Taskflow web app (Vite + React). UI actions call the API with fetch() and Authorization headers when logged in.',
     icon: '🌐',
     examples: [
-      'React application',
-      'Mobile app',
-      'Third-party API consumer',
-      'curl/Postman requests'
+      'Add task → POST /tasks',
+      'Login form → POST /auth/login',
+      'Tasks tab CRUD (Day 4 task-with-auth-ui)',
+      'curl/Postman for debugging the same API'
     ],
-    color: 'blue'
+    color: 'blue',
+    codeExample: `// Client layer — Taskflow React app (see task-with-auth-ui/src/lib/api.js)
+const res = await fetch(\`\${API_URL}/tasks\`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    ...authHeaders(token),
+  },
+  body: JSON.stringify({ title, priority, deadline }),
+});`
   },
   {
     id: 'routes',
@@ -125,11 +134,19 @@ app.use((req, res, next) => {
     codeExample: `export let tasks = [];
 
 export const createTaskRepository = (title, priority, deadline) => {
-  return tasks.push([title, priority, deadline]);
+  const task = {
+    id: Date.now(),
+    title,
+    priority,
+    deadline,
+    createdAt: new Date(),
+  };
+  tasks.push(task);
+  return task;
 };
 
 export const getTaskRepository = (id) => {
-  return tasks.at(id);
+  return tasks.find((t) => t.id === parseInt(id, 10)) || null;
 };`
   },
   {
@@ -150,11 +167,11 @@ export const getTaskRepository = (id) => {
 export const requestLifecycleStages = [
   {
     stage: 1,
-    title: 'Request Arrives',
-    description: 'HTTP request sent from client to server',
+    title: 'React UI → API',
+    description: 'Taskflow form submit or button triggers fetch() from the React SPA',
     data: {
-      in: 'HTTP Request',
-      example: 'POST /tasks\nContent-Type: application/json\n\n{"title": "Learn Express", "priority": 3, "deadline": "2026-12-31"}'
+      in: 'UI action (e.g. Add task)',
+      example: 'fetch("http://localhost:4000/tasks", {\n  method: "POST",\n  headers: { "Content-Type": "application/json" },\n  body: JSON.stringify({ title: "Learn Express", priority: 3, deadline: "2026-12-31" })\n})'
     }
   },
   {
@@ -203,8 +220,8 @@ export const requestLifecycleStages = [
     description: 'Data access layer persists data',
     data: {
       in: 'Formatted data ready to store',
-      out: 'Data stored in database, returns ID',
-      logic: 'tasks.push([title, priority, deadline])'
+      out: 'Task object stored, returns full task with id',
+      logic: 'Build { id, title, priority, deadline, createdAt } and push to tasks'
     }
   },
   {
@@ -214,7 +231,7 @@ export const requestLifecycleStages = [
     data: {
       in: 'Database result',
       out: 'HTTP Response 201 Created',
-      example: '{"title": "Learn Express", "priority": 3, ...}'
+      example: '{"id": 1717339200123, "title": "Learn Express", "priority": 3, "deadline": "...", "createdAt": "..."}'
     }
   }
 ];
@@ -224,8 +241,9 @@ export const crudOperations = [
     operation: 'CREATE',
     httpMethod: 'POST',
     endpoint: 'POST /tasks',
-    description: 'Add a new task to the database',
+    description: 'Maya clicks Add task in the React UI; the API persists a new task',
     flow: [
+      { layer: 'React UI', action: 'Add task → fetch POST /tasks with JSON body' },
       { layer: 'Route', action: 'POST /tasks matched' },
       { layer: 'Middleware', action: 'JSON parsed, logged' },
       { layer: 'Controller', action: 'Validate input, check duplicates' },
@@ -246,11 +264,13 @@ export const crudOperations = [
   "deadline": "2026-12-31"
 }`,
     response: `201 Created
-[
-  "Learn Express Middleware",
-  3,
-  "2026-12-31T00:00:00.000Z"
-]`,
+{
+  "id": 1717339200123,
+  "title": "Learn Express Middleware",
+  "priority": 3,
+  "deadline": "2026-12-31T00:00:00.000Z",
+  "createdAt": "2026-06-03T10:00:00.000Z"
+}`,
     error: `400 Bad Request
 {
   "message": "Title, priority and deadline are required."
@@ -260,39 +280,43 @@ export const crudOperations = [
     operation: 'READ',
     httpMethod: 'GET',
     endpoint: 'GET /tasks/:id',
-    description: 'Retrieve a specific task by ID',
+    description: 'View opens in the React UI; the API returns one task',
     flow: [
-      { layer: 'Route', action: 'GET /tasks/:id matched, id=0' },
+      { layer: 'React UI', action: 'View → fetch GET /tasks/:id' },
+      { layer: 'Route', action: 'GET /tasks/:id matched' },
       { layer: 'Middleware', action: 'Request logged' },
       { layer: 'Controller', action: 'Extract id from params' },
       { layer: 'Service', action: 'Fetch task by ID' },
-      { layer: 'Repository', action: 'tasks.at(id)' },
-      { layer: 'Response', action: '200 OK with task data' }
+      { layer: 'Repository', action: 'tasks.find by id' },
+      { layer: 'Response', action: '200 OK with task object' }
     ],
     validation: [
-      'id must be valid array index'
+      'id must match an existing task'
     ],
-    request: `GET /tasks/0`,
+    request: `GET /tasks/1717339200123`,
     response: `200 OK
-[
-  "Learn Express Middleware",
-  3,
-  "2026-12-31T00:00:00.000Z"
-]`,
+{
+  "id": 1717339200123,
+  "title": "Learn Express Middleware",
+  "priority": 3,
+  "deadline": "2026-12-31T00:00:00.000Z",
+  "createdAt": "2026-06-03T10:00:00.000Z"
+}`,
     error: `404 Not Found (if id doesn't exist)`
   },
   {
     operation: 'UPDATE',
     httpMethod: 'PUT',
     endpoint: 'PUT /tasks/:id',
-    description: 'Modify an existing task',
+    description: 'Edit modal in the React UI sends an update to the API',
     flow: [
+      { layer: 'React UI', action: 'Edit → fetch PUT /tasks/:id' },
       { layer: 'Route', action: 'PUT /tasks/:id matched' },
       { layer: 'Middleware', action: 'JSON parsed, logged' },
       { layer: 'Controller', action: 'Validate input, check priority' },
       { layer: 'Service', action: 'Transform deadline to Date' },
-      { layer: 'Repository', action: 'Update tasks[id]' },
-      { layer: 'Response', action: '200 OK with updated data' }
+      { layer: 'Repository', action: 'Find task by id, update fields' },
+      { layer: 'Response', action: '200 OK with updated task object' }
     ],
     validation: [
       'title (required)',
@@ -300,18 +324,20 @@ export const crudOperations = [
       'deadline (required)',
       'id must exist'
     ],
-    request: `PUT /tasks/0
+    request: `PUT /tasks/1717339200123
 {
   "title": "Advanced Express Middleware",
   "priority": 4,
   "deadline": "2026-12-31"
 }`,
     response: `200 OK
-[
-  "Advanced Express Middleware",
-  4,
-  "2026-12-31T00:00:00.000Z"
-]`,
+{
+  "id": 1717339200123,
+  "title": "Advanced Express Middleware",
+  "priority": 4,
+  "deadline": "2026-12-31T00:00:00.000Z",
+  "createdAt": "2026-06-03T10:00:00.000Z"
+}`,
     error: `400 Bad Request
 {
   "message": "Priority must be between 1 and 5."
@@ -321,22 +347,25 @@ export const crudOperations = [
     operation: 'DELETE',
     httpMethod: 'DELETE',
     endpoint: 'DELETE /tasks/:id',
-    description: 'Remove a task from the database',
+    description: 'Delete with confirmation in the React UI',
     flow: [
+      { layer: 'React UI', action: 'Delete → fetch DELETE /tasks/:id' },
       { layer: 'Route', action: 'DELETE /tasks/:id matched' },
       { layer: 'Middleware', action: 'Request logged' },
       { layer: 'Controller', action: 'Extract id from params' },
       { layer: 'Service', action: 'Delete task by ID' },
-      { layer: 'Repository', action: 'tasks.splice(id, 1)' },
-      { layer: 'Response', action: '200 OK (typically no content)' }
+      { layer: 'Repository', action: 'findIndex by id, tasks.splice(index, 1)' },
+      { layer: 'Response', action: '200 OK with confirmation message' }
     ],
     validation: [
-      'id must be valid array index',
+      'id must match an existing task',
       'id must exist'
     ],
-    request: `DELETE /tasks/0`,
+    request: `DELETE /tasks/1717339200123`,
     response: `200 OK
-(typically returns null or confirmation)`,
+{
+  "message": "Task deleted successfully."
+}`,
     error: `404 Not Found
 {
   "message": "Task not found."
@@ -469,8 +498,8 @@ export const middlewarePipelineSteps = [
     middleware: 'CORS',
     purpose: 'Handle Cross-Origin Resource Sharing',
     code: `app.use(cors());`,
-    effect: 'Allows frontend applications on different domains to access API',
-    example: 'Browser at localhost:3000 can call API at localhost:4000'
+    effect: 'Allows the Taskflow React app (different origin) to call the API',
+    example: 'React UI at localhost:5173 → API at localhost:4000 (Day 4 task-with-auth-ui)'
   },
   {
     order: 2,
@@ -512,7 +541,7 @@ export const authenticationFlow = [
   {
     step: 1,
     title: 'User Registration',
-    description: 'User provides email and password',
+    description: 'RegisterForm in the Taskflow React UI sends email and password',
     icon: '📝',
     data: {
       in: 'Email and plain-text password from form',
@@ -567,7 +596,7 @@ database.users.push(user);`,
   {
     step: 4,
     title: 'User Login',
-    description: 'User provides email and password to authenticate',
+    description: 'LoginForm submits credentials; AuthContext will store the returned JWT',
     icon: '🔑',
     data: {
       in: 'Email and plain-text password',
@@ -1087,11 +1116,12 @@ router.delete('/users/:id', authorizeRole(['admin']), controller);`,
 
 export const endToEndFlow = [
   {
-    layer: 'Client (Browser/App)',
+    layer: 'React (Taskflow UI)',
     color: 'blue',
     steps: [
-      { action: 'User enters email/password', icon: '📝' },
-      { action: 'Submit login form', icon: '📤' }
+      { action: 'Login screen — email and password', icon: '📝' },
+      { action: 'Submit → AuthContext stores JWT in localStorage', icon: '📤' },
+      { action: 'ProtectedRoute → /app/tasks or /app/docs', icon: '🔒' }
     ]
   },
   {
@@ -1141,14 +1171,14 @@ export const endToEndFlow = [
     color: 'blue',
     steps: [
       { action: '200 OK with token', icon: '✨' },
-      { action: 'Client stores token in localStorage', icon: '💾' }
+      { action: 'React app stores token; GET /auth/me restores session on reload', icon: '💾' }
     ]
   },
   {
     layer: 'Protected Request (e.g., GET /tasks)',
     color: 'slate',
     steps: [
-      { action: 'Client sends Authorization: Bearer <token>', icon: '📤' },
+      { action: 'Tasks tab: fetch with Authorization: Bearer <token>', icon: '📤' },
       { action: 'Authentication middleware extracts token', icon: '🔍' },
       { action: 'JWT verified (signature, expiry)', icon: '✓' },
       { action: 'User info attached to req.user', icon: '👤' },
@@ -1159,6 +1189,97 @@ export const endToEndFlow = [
     ]
   }
 ];
+
+/** Day 1 — HTTP and minimal servers (day-1-http-and-express/) */
+export const day1NodeServerSnippet = `const http = require("http");
+
+const server = http.createServer((req, res) => {
+  const { url, method } = req;
+
+  if (url === "/" && method === "GET") {
+    res.end("Home Route");
+  } else if (url === "/about" && method === "GET") {
+    res.end("Hello about");
+  } else {
+    res.statusCode = 404;
+    res.end("Route not found!");
+  }
+});
+
+server.listen(8000, () => {
+  console.log("Server listening on http://localhost:8000");
+});`;
+
+export const day1ExpressRoutesSnippet = `const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello home");
+});
+
+app.post("/", (req, res) => {
+  res.send("This is a post.");
+});
+
+app.listen(5000, () => {
+  console.log("Server listening on http://localhost:5000");
+});`;
+
+/** Day 3 — repository contrast (task-api vs task-mongo) */
+export const day3InMemoryRepositorySnippet = `// day-2-structured-api/task-api — in-memory
+export let tasks = [];
+
+export const createTaskRepository = (title, priority, deadline) => {
+  const task = { id: Date.now(), title, priority, deadline, createdAt: new Date() };
+  tasks.push(task);
+  return task;
+};
+
+export const getTaskRepository = (id) => {
+  return tasks.find((t) => t.id === parseInt(id, 10)) || null;
+};`;
+
+export const day3MongoRepositorySnippet = `// day-3-persistence/task-mongo — MongoDB
+import Task from "../models/Task.js";
+
+export const createTaskRepository = async (title, priority, deadline) => {
+  const task = await Task.create({
+    id: Date.now(),
+    title,
+    priority,
+    deadline,
+    createdAt: new Date(),
+  });
+  return toTask(task);
+};
+
+export const getTaskRepository = async (id) => {
+  const task = await Task.findOne({ id: parseInt(id, 10) });
+  return toTask(task);
+};`;
+
+export const day3MongoConnectionSnippet = `// config/db.js
+import mongoose from "mongoose";
+
+export const connectDB = async (uri) => {
+  await mongoose.connect(uri);
+  console.log("MongoDB connected");
+};`;
+
+export const day3TaskSchemaSnippet = `// src/models/Task.js
+const taskSchema = new mongoose.Schema({
+  id: { type: Number, required: true, unique: true },
+  title: { type: String, required: true, unique: true },
+  priority: { type: Number, required: true },
+  deadline: { type: Date, required: true },
+  createdAt: { type: Date, default: Date.now },
+});`;
+
+export const authMongoFlowSnippet = `// Conceptual: auth + Mongo (Day 4 extension)
+// 1. POST /auth/login → userRepository.getUserByEmail (users collection)
+// 2. bcrypt.compare → jwt.sign({ userId, role })
+// 3. GET /tasks + Bearer token → authMiddleware → req.user
+// 4. taskRepository.getAllTaskRepository(userId) → tasks where userId matches`;
 
 export const keyTakeaways = {
   architecture: [

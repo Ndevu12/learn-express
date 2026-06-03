@@ -4,6 +4,7 @@ import { authenticationFlow } from '@/data/examples';
 import { authenticationContent } from '@/data/content/authentication';
 import { getModuleSection } from '@/data/module-sections';
 import {
+  Callout,
   CheckList,
   ContentGrid,
   FieldBlock,
@@ -27,11 +28,13 @@ export const AuthenticationFlow: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const step = authenticationFlow[currentStep];
   const section = getModuleSection('authentication');
-  const { sidebarKeyPoint, stepsOverviewTitle, keyTakeaways, fieldLabels } = authenticationContent;
+  const { intro, runnable, sidebarKeyPoint, stepsOverviewTitle, keyTakeaways, fieldLabels } =
+    authenticationContent;
   const outputLabel = secondaryFieldLabel(step.data);
 
   return (
     <Section {...section}>
+      <p className="mb-6 text-base text-slate-600">{intro}</p>
       <div className="flex flex-wrap gap-2">
         {authenticationFlow.map((s, idx) => (
           <button
@@ -134,6 +137,15 @@ export const AuthenticationFlow: React.FC = () => {
       <Panel title={keyTakeaways.title} variant="muted">
         <CheckList items={keyTakeaways.items} />
       </Panel>
+
+      <Callout title={runnable.title} variant="info" className="mt-6">
+        <p>{runnable.body}</p>
+        <p className="mt-2 text-sm">
+          API: <code className="text-xs">{runnable.paths.api}</code>
+          <br />
+          React UI: <code className="text-xs">{runnable.paths.ui}</code>
+        </p>
+      </Callout>
     </Section>
   );
 };

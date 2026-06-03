@@ -1,13 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { DaySelector } from '@/components/layout/DaySelector';
 import { ModuleSidebar } from '@/components/layout/ModuleSidebar';
 import { ModulePagination } from '@/components/layout/ModulePagination';
 import { ModuleToolbar } from '@/components/layout/ModuleToolbar';
 import { appShell } from '@/data/app-shell';
-import type { ModuleId } from '@/data/modules';
-import { learningModules } from '@/data/modules';
+import {
+  loadSelectedDay,
+  resolveInitialModule,
+  saveLastModuleForDay,
+  saveSelectedDay,
+} from '@/data/day-session';
+import type { ModuleId, ModuleSection } from '@/data/modules';
+import { learningModules, sectionMeta } from '@/data/modules';
 import { ArchitectureExplorer } from './components/modules/ArchitectureExplorer';
 import { RequestLifecycleExplorer } from './components/modules/RequestLifecycleExplorer';
 import { CRUDVisualization } from './components/modules/CRUDVisualization';
@@ -19,10 +26,26 @@ import { AuthenticationFlow } from './components/modules/AuthenticationFlow';
 import { JWTExplorer } from './components/modules/JWTExplorer';
 import { ProtectedRoutes } from './components/modules/ProtectedRoutes';
 import { RBACModule } from './components/modules/RBACModule';
+import { Day1StoryModule } from './components/modules/Day1StoryModule';
+import { HttpRequestModule } from './components/modules/HttpRequestModule';
+import { NodeServerModule } from './components/modules/NodeServerModule';
+import { ExpressRoutesModule } from './components/modules/ExpressRoutesModule';
+import { PersistenceModule } from './components/modules/PersistenceModule';
+import { MongoConnectionModule } from './components/modules/MongoConnectionModule';
+import { MongoRepositoryModule } from './components/modules/MongoRepositoryModule';
+import { AuthMongoModule } from './components/modules/AuthMongoModule';
 import { EndToEndFlow } from './components/modules/EndToEndFlow';
 
 function renderModule(id: ModuleId, onNavigate: (id: ModuleId) => void) {
   switch (id) {
+    case 'day1story':
+      return <Day1StoryModule />;
+    case 'httprequest':
+      return <HttpRequestModule />;
+    case 'nodeserver':
+      return <NodeServerModule />;
+    case 'expressroutes':
+      return <ExpressRoutesModule />;
     case 'architecture':
       return <ArchitectureExplorer />;
     case 'lifecycle':
@@ -47,15 +70,41 @@ function renderModule(id: ModuleId, onNavigate: (id: ModuleId) => void) {
       return <ErrorHandlingModule />;
     case 'middleware':
       return <MiddlewarePipeline />;
+    case 'persistence':
+      return <PersistenceModule />;
+    case 'mongodb':
+      return <MongoConnectionModule />;
+    case 'mongorepo':
+      return <MongoRepositoryModule />;
+    case 'authmongo':
+      return <AuthMongoModule />;
     default:
       return <ArchitectureExplorer />;
   }
 }
 
 function App() {
-  const [activeModule, setActiveModule] = useState<ModuleId>('architecture');
+  const [selectedDay, setSelectedDay] = useState<ModuleSection>(loadSelectedDay);
+  const [activeModule, setActiveModule] = useState<ModuleId>(() => resolveInitialModule(loadSelectedDay()));
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { header, hero, footer } = appShell;
+
+  const navigateToModule = useCallback((id: ModuleId) => {
+    const module = learningModules.find((m) => m.id === id);
+    if (!module) return;
+    setActiveModule(id);
+    setSelectedDay(module.section);
+    saveSelectedDay(module.section);
+    saveLastModuleForDay(module.section, id);
+  }, []);
+
+  const handleDayChange = useCallback((day: ModuleSection) => {
+    setSelectedDay(day);
+    saveSelectedDay(day);
+    const moduleId = resolveInitialModule(day);
+    setActiveModule(moduleId);
+    saveLastModuleForDay(day, moduleId);
+  }, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,7 +123,7 @@ function App() {
     };
   }, [sidebarOpen]);
 
-  const current = learningModules.find((m) => m.id === activeModule);
+  const daySubtitle = sectionMeta[selectedDay].label;
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -93,16 +142,27 @@ function App() {
           </Button>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-slate-900">{header.sessionTitle}</p>
-            <p className="truncate text-xs text-slate-500">
-              {current ? current.label : header.fallbackSubtitle}
-            </p>
+            <p className="truncate text-xs text-slate-500">{daySubtitle}</p>
           </div>
+          <DaySelector
+            selectedDay={selectedDay}
+            onDayChange={handleDayChange}
+            className="hidden shrink-0 sm:flex"
+          />
+        </div>
+        <div className="border-t border-slate-100 px-4 py-3 sm:hidden">
+          <DaySelector selectedDay={selectedDay} onDayChange={handleDayChange} className="w-full" />
         </div>
       </header>
 
       <div className="mx-auto flex max-w-[90rem]">
-        <div className="hidden w-72 shrink-0 lg:sticky lg:top-14 lg:block lg:h-[calc(100vh-3.5rem)]">
-          <ModuleSidebar activeModule={activeModule} onSelect={setActiveModule} />
+        <div className="hidden w-72 shrink-0 lg:sticky lg:top-14 lg:flex lg:h-[calc(100vh-3.5rem)]">
+          <ModuleSidebar
+            selectedDay={selectedDay}
+            activeModule={activeModule}
+            onSelect={navigateToModule}
+            className="w-full"
+          />
         </div>
 
         {sidebarOpen && (
@@ -115,12 +175,14 @@ function App() {
             />
             <div
               id="module-sidebar"
-              className="absolute inset-y-0 left-0 w-[min(100%,20rem)] shadow-xl"
+              className="absolute inset-y-0 left-0 flex w-[min(100%,20rem)] flex-col bg-white shadow-xl"
             >
               <ModuleSidebar
+                selectedDay={selectedDay}
                 activeModule={activeModule}
-                onSelect={setActiveModule}
+                onSelect={navigateToModule}
                 onClose={() => setSidebarOpen(false)}
+                className="h-full"
               />
             </div>
           </div>
@@ -142,11 +204,11 @@ function App() {
             className="scroll-mt-14 px-4 py-8 sm:px-6 lg:px-10 lg:py-10"
             role="main"
           >
-            <ModuleToolbar activeModule={activeModule} onNavigate={setActiveModule} />
+            <ModuleToolbar activeModule={activeModule} onNavigate={navigateToModule} />
             <div key={activeModule} className="animate-fade-in">
-              {renderModule(activeModule, setActiveModule)}
+              {renderModule(activeModule, navigateToModule)}
             </div>
-            <ModulePagination activeModule={activeModule} onNavigate={setActiveModule} />
+            <ModulePagination activeModule={activeModule} onNavigate={navigateToModule} />
           </main>
 
           <footer className="border-t border-slate-200 bg-slate-900 text-slate-50" role="contentinfo">

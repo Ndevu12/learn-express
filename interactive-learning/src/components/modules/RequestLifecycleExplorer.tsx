@@ -9,11 +9,12 @@ import { getModuleSection } from '@/data/module-sections';
 export const RequestLifecycleExplorer: React.FC = () => {
   const [currentStage, setCurrentStage] = useState(0);
   const section = getModuleSection('lifecycle');
-  const { timelineTitle, takeaway, fieldLabels } = lifecycleContent;
+  const { intro, timelineTitle, takeaway, fieldLabels } = lifecycleContent;
 
   const stage = requestLifecycleStages[currentStage];
   return (
     <Section {...section}>
+      <p className="mb-6 text-base text-slate-600">{intro}</p>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Timeline */}
         <div className="lg:col-span-1">
