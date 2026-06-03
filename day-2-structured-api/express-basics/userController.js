@@ -29,42 +29,50 @@ const users = [
     "email": "ethan@example.com",
     "role": "user"
   }
-]
+];
+
 const getAllUsers = (req, res) => {
-    return res.json({ users : { users}});
+  return res.json({ users });
 };
 
 const newUser = (req, res) => {
-    return res.json({ messsage : "Here are the lists of new users!"});
-}
+  return res.json({ message: "Here are the lists of new users!" });
+};
 
 const createUser = (req, res) => {
-    return res.json({ messsage : "User is created!"});
-}
+  return res.json({ message: "User is created!" });
+};
 
 const getUserController = (req, res) => {
-    const { id } = req.params; // const id = req.params.id;
+  const { id } = req.params;
 
-    const user = users.find((u) => u.id = id);
+  const user = users.find((u) => u.id === Number(id));
 
-    return res.json({ user : { user }});
-}
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  return res.json({ user });
+};
 
 const searchUserController = (req, res) => {
-    const name = req.query.name;
+  const name = req.query.name;
 
-    if (!name){
-        return res.status(404).json({ Message: 'Resources not found'});
-    }
+  if (!name) {
+    return res.status(404).json({ message: "Resources not found" });
+  }
 
-    const user = users.filter((u) => u.name.toLowerCase() = name.toLowerCase());
-    return res.json({ user : { user }});
-}
+  const matchedUsers = users.filter(
+    (u) => u.name.toLowerCase() === name.toLowerCase()
+  );
+
+  return res.json({ users: matchedUsers });
+};
 
 module.exports = {
-    getAllUsers,
-    newUser,
-    createUser,
-    getUserController,
-    searchUserController
-}
+  getAllUsers,
+  newUser,
+  createUser,
+  getUserController,
+  searchUserController
+};
