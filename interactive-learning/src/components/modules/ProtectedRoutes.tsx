@@ -17,6 +17,7 @@ export const ProtectedRoutes: React.FC = () => {
 
   return (
     <Section {...section}>
+      <p className="mb-6 text-base text-slate-600">{content.intro}</p>
       <div className="mb-8">
         <p className="text-slate-700 mb-4 font-semibold">{content.selectScenarioPrompt}</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

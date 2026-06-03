@@ -5,7 +5,7 @@ export type AuthConceptFocus = 'overview' | 'authentication' | 'authorization';
 export const authVsAuthzConcept = {
   title: 'Authentication vs authorization',
   summary:
-    'Both are required on protected APIs, but they answer different questions. Authentication runs first; authorization only makes sense once identity is established.',
+    'Both are required on protected APIs, but they answer different questions. Authentication runs first; authorization only makes sense once identity is established. The Taskflow React UI may hide screens, but the API enforces 401 and 403.',
   authentication: {
     label: 'Authentication',
     question: 'Who are you?',
@@ -96,7 +96,7 @@ Authorization: Bearer <valid_user_token>
     items: [
       'Using 403 when the client never sent a valid token (should be 401)',
       'Hiding “not logged in” behind 403 to obscure endpoints',
-      'Trusting role checks only in the frontend',
+      'Trusting role checks only in the React UI (ProtectedRoute is UX; the API must enforce)',
       'Skipping authorization because the user “has a valid JWT”',
       'Treating authentication and authorization as one middleware with no clear order',
     ],

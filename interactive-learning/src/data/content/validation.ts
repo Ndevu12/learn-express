@@ -1,4 +1,6 @@
 export const validationContent = {
+  intro:
+    'When Maya submits a task from the React UI, invalid input should fail at the API before it reaches business logic. The Taskflow UI surfaces API validation errors in forms and modals — the server still owns the rules.',
   purposeHeading: 'Purpose',
   implementationHeading: 'Implementation',
   whyValidationTitle: 'Why Validation Matters',
