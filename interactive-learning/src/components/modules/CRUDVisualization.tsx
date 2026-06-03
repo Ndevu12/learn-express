@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from '../shared/Card';
-import { Section } from '@/components/shared/learning';
+import { Section, PracticalRequestPanel } from '@/components/shared/learning';
+import { day2CrudPracticalSection } from '@/data/content/http-client-examples';
 import { Badge } from '../shared/Badge';
 import { crudOperations } from '@/data/examples';
 import { crudContent, crudOperationStyles, type CrudHttpMethod } from '@/data/content/crud';
@@ -127,6 +128,8 @@ export const CRUDVisualization: React.FC = () => {
           </Card>
         </div>
       </div>
+
+      <PracticalRequestPanel section={day2CrudPracticalSection} className="mt-8" />
     </Section>
   );
 };

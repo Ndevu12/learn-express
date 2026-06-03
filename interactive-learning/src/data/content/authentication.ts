@@ -1,6 +1,6 @@
 export const authenticationContent = {
   intro:
-    'Registration and login in the Taskflow React UI call the auth API. Passwords are hashed on the server; the UI receives a JWT and AuthContext persists it for later task requests.',
+    'Registration and login in the Taskflow React UI call the auth API. Passwords are hashed on the server; the UI receives a JWT and AuthContext persists it for later task requests. You can run the same POST /auth/login with fetch or axios first — see the **Call the API: fetch & axios** module at the end of Day 4.',
   runnable: {
     title: 'Run API + React UI',
     body: 'Start task-with-auth (port 4000) then task-with-auth-ui (port 5173). See auth-mongo module or day-4-auth-and-security/auth/README.md for demo accounts and env files.',

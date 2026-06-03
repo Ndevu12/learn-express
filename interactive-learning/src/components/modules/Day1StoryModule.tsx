@@ -30,6 +30,10 @@ export const Day1StoryModule: React.FC = () => {
       <Callout title="Next" variant="info">
         {day1StoryContent.closing}
       </Callout>
+
+      <Callout title={day1StoryContent.practicalHint.title} variant="info" className="mt-6">
+        {day1StoryContent.practicalHint.body}
+      </Callout>
     </Section>
   );
 };
