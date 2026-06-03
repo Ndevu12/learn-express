@@ -32,6 +32,15 @@ curl -X POST http://localhost:5000/
 
 For `nodeserver.js`, read the `listen` port in the file and hit the routes it defines (`/`, `about`, etc.).
 
+**Try it with fetch** (browser DevTools console while `expressapp.js` runs):
+
+```javascript
+const res = await fetch("http://localhost:5000/");
+console.log(await res.text());
+```
+
+See the **HTTP request** module in [interactive-learning](../interactive-learning/) for GET, POST, and JSON body patterns.
+
 ## What to notice
 
 1. **Routing** — `nodeserver.js` uses `if (url === … && method === …)`; Express maps method + path to handlers.

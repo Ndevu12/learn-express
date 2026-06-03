@@ -7,3 +7,4 @@ export { FieldBlock } from './FieldBlock';
 export { CheckList } from './CheckList';
 export { StepNav } from './StepNav';
 export { AuthVsAuthzPanel } from './AuthVsAuthzPanel';
+export { PracticalRequestPanel } from './PracticalRequestPanel';

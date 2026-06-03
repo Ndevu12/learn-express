@@ -34,6 +34,7 @@ import { PersistenceModule } from './components/modules/PersistenceModule';
 import { MongoConnectionModule } from './components/modules/MongoConnectionModule';
 import { MongoRepositoryModule } from './components/modules/MongoRepositoryModule';
 import { AuthMongoModule } from './components/modules/AuthMongoModule';
+import { PracticalHttpModule } from './components/modules/PracticalHttpModule';
 import { EndToEndFlow } from './components/modules/EndToEndFlow';
 
 function renderModule(id: ModuleId, onNavigate: (id: ModuleId) => void) {
@@ -78,6 +79,8 @@ function renderModule(id: ModuleId, onNavigate: (id: ModuleId) => void) {
       return <MongoRepositoryModule />;
     case 'authmongo':
       return <AuthMongoModule />;
+    case 'practicalhttp':
+      return <PracticalHttpModule />;
     default:
       return <ArchitectureExplorer />;
   }
