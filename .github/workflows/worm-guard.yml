@@ -1,0 +1,60 @@
+# Strix worm-guard — installed/updated by `saw guard setup`.
+# Blocks a merge when Strix finds self-propagating worm indicators, and opens a fix PR for
+# an infected verdict. Found by its `uses: Ndevu12/strix@<sha>` reference (not this filename);
+# re-run `saw guard setup` to bump the SHA.
+#
+# Auto-remediation needs write access (the scan itself only reads):
+#   contents: write        -> push the security/auto-clean fix branch
+#   pull-requests: write   -> open/update the rolling cleanup PR
+# To let the token OPEN that PR, enable: Settings -> Actions -> General ->
+#   'Allow GitHub Actions to create and approve pull requests'.
+# A PR opened with the built-in GITHUB_TOKEN will NOT itself re-trigger this gate; to have the
+# fix PR scanned too, set a repo secret GH_SECURITY_TOKEN (a PAT with repo + PR scope) — the
+# `token:` below prefers it and falls back to GITHUB_TOKEN when it is absent.
+name: Worm guard — block infected merges
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 7 * * 1'        # Mondays 07:00 UTC — pin-drift check
+  workflow_dispatch:
+
+permissions: {}                # least privilege: granted PER JOB below
+
+jobs:
+  worm-guard:
+    if: github.event_name != 'schedule'   # gate on code changes, not the drift schedule
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # push the security/auto-clean fix branch
+      pull-requests: write   # open/update the rolling cleanup PR
+    steps:
+      - name: Checkout (full history so evil-merge detection sees the whole graph)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Strix worm scan (+ open a fix PR on an infected verdict)
+        uses: Ndevu12/strix@93fe465d7b0266c6010778999b73b591ae082f3e  # v0.1.4
+        with:
+          remediate: pr
+          token: ${{ secrets.GH_SECURITY_TOKEN || github.token }}
+
+  pin-drift:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read         # read the pinned ref from this workflow file
+      issues: write          # open/close the one drift tracking issue
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Report if the pinned Strix release is behind
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          pip install --quiet stayawakebot
+          saw guard drift

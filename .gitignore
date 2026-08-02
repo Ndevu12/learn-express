@@ -2,3 +2,6 @@
 
 # Internal planning (analysis + parallel implementation) — local only
 docs/internal/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
